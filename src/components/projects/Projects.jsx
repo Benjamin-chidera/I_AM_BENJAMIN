@@ -42,16 +42,15 @@ export const Projects = () => {
 
           <div>
             <p className="max-w-lg">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae
-              tenetur animi eius dolor ad pariatur illum molestiae quas debitis
-              exercitationem ipsam voluptatibus, reprehenderit et eos atque qui
-              molestias. Possimus sapiente reiciendis asperiores tempore totam
-              quod soluta ea nihil modi. Odio molestias repellat quam ea
-              reiciendis eos. Nobis optio molestias expedita consequuntur
-              possimus, corporis magnam, obcaecati veritatis quasi maxime eum ex
-              qui necessitatibus quae odio eaque illo modi alias eius dolorum
-              ipsum quis. Eaque perspiciatis libero possimus et facilis illum
-              natus ratione
+              YemSays is a comprehensive real estate project designed to provide
+              customers with a seamless experience in viewing and booking
+              properties. The platform allows customers to browse through a
+              diverse range of properties, view detailed information, and
+              schedule inspections to physically visit the properties they are
+              interested in. Additionally, the system empowers administrators
+              with the capability to upload available properties, manage
+              property listings, and oversee the bookings made by customers for
+              property inspections.
             </p>
 
             <div className="flex items-center gap-10 mt-7">
@@ -111,16 +110,13 @@ export const Projects = () => {
 
           <div>
             <p className="max-w-lg">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae
-              tenetur animi eius dolor ad pariatur illum molestiae quas debitis
-              exercitationem ipsam voluptatibus, reprehenderit et eos atque qui
-              molestias. Possimus sapiente reiciendis asperiores tempore totam
-              quod soluta ea nihil modi. Odio molestias repellat quam ea
-              reiciendis eos. Nobis optio molestias expedita consequuntur
-              possimus, corporis magnam, obcaecati veritatis quasi maxime eum ex
-              qui necessitatibus quae odio eaque illo modi alias eius dolorum
-              ipsum quis. Eaque perspiciatis libero possimus et facilis illum
-              natus ratione
+              PostIt is a dynamic blog site designed to facilitate seamless
+              posting, viewing, editing, and deletion of blog posts. The
+              platform empowers users to share their thoughts and ideas through
+              posts while providing an interactive experience for readers to
+              engage with the content. Key features include the ability to
+              create, view, edit, and delete posts, as well as comment on posts
+              and manage comments.
             </p>
 
             <div className="flex items-center gap-10 mt-7">
