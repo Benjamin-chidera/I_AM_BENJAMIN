@@ -1,6 +1,8 @@
+/* eslint-disable react/no-unknown-property */
 import React from "react";
 import yem from "../../assets/yem.png";
 import Pos from "../../assets/Pos.png";
+import swiftCart from "../../assets/swiftCart.png";
 import { FaGithub, FaInternetExplorer } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -24,6 +26,7 @@ export const Projects = () => {
       </motion.section>
 
       <section className=" flex flex-col gap-20 mt-10 mx-5">
+        {/* YEMSAYS */}
         <motion.section
           className="md:flex justify-center gap-10 mt-5"
           initial={{
@@ -56,6 +59,7 @@ export const Projects = () => {
             <div className="flex items-center gap-10 mt-7">
               <motion.a
                 href=" https://github.com/Benjamin-chidera/yemSays-RealEstate"
+                target="_blank"
                 initial={{
                   scale: 0.9,
                 }}
@@ -73,6 +77,7 @@ export const Projects = () => {
               </motion.a>
               <motion.a
                 href="https://yem-says-fawn.vercel.app/"
+                target="_blank"
                 initial={{
                   scale: 0.9,
                 }}
@@ -92,6 +97,7 @@ export const Projects = () => {
           </div>
         </motion.section>
 
+        {/* POSTIT */}
         <motion.section
           className="md:flex justify-center gap-10 mt-5 "
           initial={{
@@ -122,7 +128,7 @@ export const Projects = () => {
             <div className="flex items-center gap-10 mt-7">
               <motion.a
                 href="https://github.com/Benjamin-chidera/Postit-blog"
-                target="blank"
+                target="_blank"
                 initial={{
                   scale: 0.9,
                 }}
@@ -140,7 +146,82 @@ export const Projects = () => {
               </motion.a>
               <motion.a
                 href="https://postit-blog-six.vercel.app/"
-                target="blank"
+                target="_blank"
+                initial={{
+                  scale: 0.9,
+                }}
+                whileTap={{
+                  scale: 0.7,
+                }}
+                whileHover={{
+                  scale: 1.1,
+                }}
+                transition={{
+                  duration: 1,
+                }}
+              >
+                <FaInternetExplorer size={27} />
+              </motion.a>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* SWIFT-CART */}
+        <motion.section
+          className="md:flex justify-center gap-10 mt-5 items-center"
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 0.7,
+          }}
+        >
+          <div>
+            <img src={swiftCart} alt="" className=" w-[400px]  mb-5 md:mb-0" />
+
+            <marquee behavior="smooth" direction="">
+              Coming soon.....
+            </marquee>
+          </div>
+
+          <div>
+            <p className="max-w-lg">
+              Swift Cart is a cutting-edge E-commerce destination designed
+              exclusively for shoppers. It boasts a wide array of products
+              spanning from trendy fashion. Customers on Swift Cart can dive
+              into a rich catalog, indulge in secure transactions, effortlessly
+              see their orders, and enjoy tailored recommendations. The platform
+              excels in user engagement, offering hassle-free returns, and
+              transparent reviews. Swift Cart stands out as a premier shopping
+              hub, delivering unparalleled convenience and satisfaction to
+              buyers.
+            </p>
+
+            <div className="flex items-center gap-10 mt-7">
+              <motion.a
+                href="https://github.com/Benjamin-chidera/Swift-Cart-Client"
+                target="_blank"
+                initial={{
+                  scale: 0.9,
+                }}
+                whileTap={{
+                  scale: 0.7,
+                }}
+                whileHover={{
+                  scale: 1.1,
+                }}
+                transition={{
+                  duration: 1,
+                }}
+              >
+                <FaGithub size={27} />
+              </motion.a>
+              <motion.a
+                href="https://swift-cart-one.vercel.app/"
+                target="_blank"
                 initial={{
                   scale: 0.9,
                 }}
