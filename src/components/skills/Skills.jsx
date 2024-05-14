@@ -10,11 +10,13 @@ import su from "../../assets/su.png";
 import nj from "../../assets/nj.png";
 import mo from "../../assets/mo.webp";
 import ex from "../../assets/ex.jpeg";
+import nextjs from "../../assets/nextjs.png";
+import type from "../../assets/type.png";
 import { motion } from "framer-motion";
 
 export const Skills = () => {
   return (
-    <main id="skills">
+    <main id="skills" className="pt-10">
       <motion.section
         className="flex justify-center items-center gap-2 my-10 px-7"
         initial={{
@@ -144,6 +146,28 @@ export const Skills = () => {
         />
         <motion.img
           src={ex}
+          alt=""
+          className="w-[75px] h-[70px]"
+          initial={{
+            scale: 0.8,
+          }}
+          whileHover={{
+            scale: 1.1,
+          }}
+        />
+        <motion.img
+          src={nextjs}
+          alt=""
+          className="w-[75px] h-[70px]"
+          initial={{
+            scale: 0.8,
+          }}
+          whileHover={{
+            scale: 1.1,
+          }}
+        />
+        <motion.img
+          src={type}
           alt=""
           className="w-[75px] h-[70px]"
           initial={{

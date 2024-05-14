@@ -10,7 +10,7 @@ import { MobileNav } from "./MobileNav";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const items = ["home", "about", "portfolio", "contact", "skills"];
+  const items = ["home", "portfolio", "contact", "skills"];
 
   const handleClose = () => {
     setOpen(false)

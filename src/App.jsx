@@ -1,5 +1,4 @@
 import "./App.css";
-import { About } from "./components/about/About";
 import { Top } from "./components/BackToTop/Top";
 import { Contact } from "./components/contact/Contact";
 import { Cursor } from "./components/cursor/Cursor";
@@ -9,7 +8,6 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { Projects } from "./components/projects/Projects";
 import { Skills } from "./components/skills/Skills";
 
-
 function App() {
   return (
     <main className="container mx-auto pt-8">
@@ -18,9 +16,7 @@ function App() {
         <Navbar />
         <Hero />
       </section>
-      <section className="main-section lg:h-[500px]" id="about">
-        <About />
-      </section>
+
       <section className="main-section" id="portfolio">
         <Projects />
       </section>
@@ -33,7 +29,7 @@ function App() {
       <section className="mt-20">
         <Footer />
       </section>
-      <Top/>
+      <Top />
     </main>
   );
 }

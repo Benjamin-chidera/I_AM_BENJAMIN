@@ -39,7 +39,7 @@ export const Contact = () => {
   };
 
   return (
-    <main id="contact">
+    <main id="contact" className="pt-20">
       <motion.section
         className="flex justify-center items-center gap-2"
         initial={{

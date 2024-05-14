@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export const MobileNav = ({ handleClose }) => {
-  const items = ["home", "about", "portfolio", "contact", "skills"];
+  const items = ["home", "portfolio", "contact", "skills"];
 
   const variants = {
     open: {
