@@ -12,6 +12,7 @@ import mo from "../../assets/mo.webp";
 import ex from "../../assets/ex.jpeg";
 import nextjs from "../../assets/nextjs.png";
 import type from "../../assets/type.png";
+import mysql from "../../assets/mysql.png";
 import { motion } from "framer-motion";
 
 export const Skills = () => {
@@ -168,6 +169,17 @@ export const Skills = () => {
         />
         <motion.img
           src={type}
+          alt=""
+          className="w-[75px] h-[70px]"
+          initial={{
+            scale: 0.8,
+          }}
+          whileHover={{
+            scale: 1.1,
+          }}
+        />
+        <motion.img
+          src={mysql}
           alt=""
           className="w-[75px] h-[70px]"
           initial={{
