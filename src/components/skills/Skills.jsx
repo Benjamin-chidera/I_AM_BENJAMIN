@@ -13,6 +13,7 @@ import ex from "../../assets/ex.jpeg";
 import nextjs from "../../assets/nextjs.png";
 import type from "../../assets/type.png";
 import mysql from "../../assets/mysql.png";
+import native from "../../assets/native.png";
 import { motion } from "framer-motion";
 
 export const Skills = () => {
@@ -112,7 +113,7 @@ export const Skills = () => {
             scale: 1.1,
           }}
         />
-        <motion.img
+        {/* <motion.img
           src={su}
           alt=""
           className="w-[75px] h-[70px]"
@@ -122,7 +123,7 @@ export const Skills = () => {
           whileHover={{
             scale: 1.1,
           }}
-        />
+        /> */}
         <motion.img
           src={nj}
           alt=""
@@ -182,6 +183,17 @@ export const Skills = () => {
           src={mysql}
           alt=""
           className="w-[75px] h-[70px]"
+          initial={{
+            scale: 0.8,
+          }}
+          whileHover={{
+            scale: 1.1,
+          }}
+        />
+        <motion.img
+          src={native}
+          alt=""
+          className="w-[75px] h-[70px] object-cover"
           initial={{
             scale: 0.8,
           }}
