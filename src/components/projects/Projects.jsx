@@ -182,9 +182,9 @@ export const Projects = () => {
           <div>
             <img src={swiftCart} alt="" className=" w-[400px]  mb-5 md:mb-0" />
 
-            <marquee behavior="smooth" direction="">
+            {/* <marquee behavior="smooth" direction="">
               Coming soon.....
-            </marquee>
+            </marquee> */}
           </div>
 
           <div>
