@@ -2,6 +2,7 @@
 import React from "react";
 import yem from "../../assets/yem.png";
 import Pos from "../../assets/Pos.png";
+import JOBME from "../../assets/JOBME.png";
 import swiftCart from "../../assets/swiftCart.png";
 import { FaGithub, FaInternetExplorer } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -221,6 +222,83 @@ export const Projects = () => {
               </motion.a>
               <motion.a
                 href="https://swift-cart-one.vercel.app/"
+                target="_blank"
+                initial={{
+                  scale: 0.9,
+                }}
+                whileTap={{
+                  scale: 0.7,
+                }}
+                whileHover={{
+                  scale: 1.1,
+                }}
+                transition={{
+                  duration: 1,
+                }}
+              >
+                <FaInternetExplorer size={27} />
+              </motion.a>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* JOBME*/}
+        <motion.section
+          className="md:flex justify-center gap-10 mt-5 items-center"
+          initial={{
+            opacity: 0,
+          }}
+          whileInView={{
+            opacity: 1,
+          }}
+          transition={{
+            duration: 0.7,
+          }}
+        >
+          <div>
+            <img src={JOBME} alt="" className=" w-[400px]  mb-5 md:mb-0" />
+
+            {/* <marquee behavior="smooth" direction="">
+              Coming soon.....
+            </marquee> */}
+          </div>
+
+          <div>
+            <p className="max-w-lg">
+              JOBME is a dynamic job marketplace designed to bridge the gap
+              between job seekers and employers. This platform allows job
+              seekers to browse a comprehensive list of job opportunities, apply
+              for positions that match their skills and interests, and manage
+              their applications seamlessly. Employers benefit from JOBME by
+              easily posting available job openings, reaching a broad audience
+              of qualified candidates, and managing applications efficiently.
+              The user-friendly interface and robust functionality of JOBME
+              ensure an efficient and streamlined experience for both job
+              seekers and employers, facilitating successful connections and
+              career growth.
+            </p>
+
+            <div className="flex items-center gap-10 mt-7">
+              <motion.a
+                href="https://github.com/Benjamin-chidera/JOB_ME"
+                target="_blank"
+                initial={{
+                  scale: 0.9,
+                }}
+                whileTap={{
+                  scale: 0.7,
+                }}
+                whileHover={{
+                  scale: 1.1,
+                }}
+                transition={{
+                  duration: 1,
+                }}
+              >
+                <FaGithub size={27} />
+              </motion.a>
+              <motion.a
+                href="https://jobme.discoverbenix.com/"
                 target="_blank"
                 initial={{
                   scale: 0.9,
