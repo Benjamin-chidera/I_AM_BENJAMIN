@@ -21,7 +21,7 @@ export const Hero = () => {
     const downloadLink = document.createElement("a");
 
     downloadLink.href =
-      "https://drive.google.com/file/d/1QBfvfd9As6tOuEUpqcHYsbuQEQLYKa_r/view?usp=drive_link";
+      "https://drive.google.com/file/d/1JDVEoykWwGcUgA8ZFluuTDNI3P8TP1N8/view?usp=drive_link";
 
     downloadLink.download = "resume.pdf";
     document.body.appendChild(downloadLink);
