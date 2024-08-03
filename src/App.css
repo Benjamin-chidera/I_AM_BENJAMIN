@@ -26,3 +26,23 @@ body {
   z-index: 999;
 }
 }
+
+
+/* scrollbar style */
+::-webkit-scrollbar {
+  width: 3px; 
+}
+
+::-webkit-scrollbar-track {
+  background: black; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: white; 
+  border-radius: 100vw;
+  margin-block: .5em; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: red; 
+}

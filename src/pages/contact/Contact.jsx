@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { IoCall } from "react-icons/io5";
 import { useRef } from "react";
 import emailjs from "@emailjs/browser";
-import { Success } from "../modal/Success";
-import { Loader } from "../modal/Loader";
+import { Success } from "../../components/modal/Success";
+import { Loader } from "../../components/modal/Loader";
+
 
 
 export const Contact = () => {
@@ -39,7 +40,7 @@ export const Contact = () => {
   };
 
   return (
-    <main id="contact" className="pt-20">
+    <main id="contact" className="pt-10 lg:mx-6">
       <motion.section
         className="flex justify-center items-center gap-2"
         initial={{
@@ -61,12 +62,19 @@ export const Contact = () => {
             Let’s work together
           </h1>
 
-          <div className=" mt-3">
+          <div className="mt-3">
             <h1 className="text-xl flex items-center gap-2">
               <IoCall />
               Phone
             </h1>
-            <p>+234 9048 40153 3</p>
+            <p>
+              <a
+                href="tel:+2349048401533"
+                className="text-blue-500 hover:underline"
+              >
+                +234 9048 40153 3
+              </a>
+            </p>
           </div>
         </section>
 

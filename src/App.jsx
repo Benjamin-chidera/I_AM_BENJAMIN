@@ -1,35 +1,37 @@
 import "./App.css";
 import { Top } from "./components/BackToTop/Top";
-import { Contact } from "./components/contact/Contact";
 import { Cursor } from "./components/cursor/Cursor";
 import { Footer } from "./components/Footer/Footer";
-import { Hero } from "./components/hero/Hero";
+import { Hero } from "./pages/hero/Hero";
 import { Navbar } from "./components/Navbar/Navbar";
-import { Projects } from "./components/projects/Projects";
-import { Skills } from "./components/skills/Skills";
+import { Projects } from "./pages/projects/Projects";
+import { Skills } from "./pages/skills/Skills";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import About from "./pages/about/About";
+import Certifications from "./pages/certifications/Certifications";
+import { Contact } from "./pages/contact/Contact";
 
 function App() {
   return (
-    <main className="container mx-auto pt-8">
-      <Cursor />
-      <section className="main-section" id="home">
-        <Navbar />
-        <Hero />
-      </section>
-
-      <section className="main-section" id="portfolio">
-        <Projects />
-      </section>
-      <section className="main-section h-[100vh] lg:h-[400px]" id="skills">
-        <Skills />
-      </section>
-      <section className="main-section" id="contact">
-        <Contact />
-      </section>
-      <section className="mt-20">
-        <Footer />
-      </section>
-      <Top />
+    <main className=" container mx-auto pt-3">
+      <BrowserRouter>
+        <Cursor />
+        <section className="main-section" id="home">
+          <Navbar />
+        </section>
+        <Routes>
+          <Route path="/" element={<Hero />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/certifications" element={<Certifications />} />
+        </Routes>
+        <Top />
+        <section className="">
+          <Footer />
+        </section>
+      </BrowserRouter>
     </main>
   );
 }

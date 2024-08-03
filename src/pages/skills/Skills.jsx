@@ -18,9 +18,9 @@ import { motion } from "framer-motion";
 
 export const Skills = () => {
   return (
-    <main id="skills" className="pt-10">
+    <main id="skills" className="">
       <motion.section
-        className="flex justify-center items-center gap-2 my-10 px-7"
+        className="flex justify-center items-center gap-2 my-10"
         initial={{
           x: -200,
           opacity: 0,
@@ -35,11 +35,11 @@ export const Skills = () => {
         <div className="h-1 w-10 md:w-20 bg-slate-300"></div>
       </motion.section>
 
-      <section className="grid grid-cols-3 md:grid-cols-6 gap-5 place-items-center lg:w-[800px] mx-auto">
+      <section className="grid grid-cols-3 md:grid-cols-6 gap-5 place-items-center lg:w-[800px] mx-auto px-6">
         <motion.img
           src={html}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 1.0,
           }}
@@ -50,7 +50,7 @@ export const Skills = () => {
         <motion.img
           src={css}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -61,7 +61,7 @@ export const Skills = () => {
         <motion.img
           src={js}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -72,7 +72,7 @@ export const Skills = () => {
         <motion.img
           src={bt}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -83,7 +83,7 @@ export const Skills = () => {
         <motion.img
           src={tw}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -94,7 +94,7 @@ export const Skills = () => {
         <motion.img
           src={re}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -105,7 +105,7 @@ export const Skills = () => {
         <motion.img
           src={sc}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -116,7 +116,7 @@ export const Skills = () => {
         {/* <motion.img
           src={su}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -127,7 +127,7 @@ export const Skills = () => {
         <motion.img
           src={nj}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -138,7 +138,7 @@ export const Skills = () => {
         <motion.img
           src={mo}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -149,7 +149,7 @@ export const Skills = () => {
         <motion.img
           src={ex}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -160,7 +160,7 @@ export const Skills = () => {
         <motion.img
           src={nextjs}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -171,7 +171,7 @@ export const Skills = () => {
         <motion.img
           src={type}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -182,7 +182,7 @@ export const Skills = () => {
         <motion.img
           src={mysql}
           alt=""
-          className="w-[75px] h-[70px]"
+          className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
           }}
@@ -193,7 +193,7 @@ export const Skills = () => {
         <motion.img
           src={native}
           alt=""
-          className="w-[75px] h-[70px] object-cover"
+          className="w-[100px] h-[100px] object-cover"
           initial={{
             scale: 0.8,
           }}
