@@ -38,7 +38,7 @@ export const Skills = () => {
       <section className="grid grid-cols-3 md:grid-cols-6 gap-5 place-items-center lg:w-[800px] mx-auto px-6">
         <motion.img
           src={html}
-          alt=""
+          alt="html"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 1.0,
@@ -49,7 +49,7 @@ export const Skills = () => {
         />
         <motion.img
           src={css}
-          alt=""
+          alt="css"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -60,7 +60,7 @@ export const Skills = () => {
         />
         <motion.img
           src={js}
-          alt=""
+          alt="javaScript"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -71,7 +71,7 @@ export const Skills = () => {
         />
         <motion.img
           src={bt}
-          alt=""
+          alt="bootStrap"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -82,7 +82,7 @@ export const Skills = () => {
         />
         <motion.img
           src={tw}
-          alt=""
+          alt="tailwind"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -93,7 +93,7 @@ export const Skills = () => {
         />
         <motion.img
           src={re}
-          alt=""
+          alt="react.js"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -104,7 +104,7 @@ export const Skills = () => {
         />
         <motion.img
           src={sc}
-          alt=""
+          alt="styled components"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -126,7 +126,7 @@ export const Skills = () => {
         /> */}
         <motion.img
           src={nj}
-          alt=""
+          alt="node.js"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -137,7 +137,7 @@ export const Skills = () => {
         />
         <motion.img
           src={mo}
-          alt=""
+          alt="mongoDB"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -148,7 +148,7 @@ export const Skills = () => {
         />
         <motion.img
           src={ex}
-          alt=""
+          alt="express.js"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -159,7 +159,7 @@ export const Skills = () => {
         />
         <motion.img
           src={nextjs}
-          alt=""
+          alt="next.js"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -170,7 +170,7 @@ export const Skills = () => {
         />
         <motion.img
           src={type}
-          alt=""
+          alt="typeScript"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -181,7 +181,7 @@ export const Skills = () => {
         />
         <motion.img
           src={mysql}
-          alt=""
+          alt="mysql"
           className="w-[100px] h-[90px]"
           initial={{
             scale: 0.8,
@@ -192,7 +192,7 @@ export const Skills = () => {
         />
         <motion.img
           src={native}
-          alt=""
+          alt="react native"
           className="w-[100px] h-[100px] object-cover"
           initial={{
             scale: 0.8,
