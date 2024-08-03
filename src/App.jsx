@@ -10,6 +10,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import About from "./pages/about/About";
 import Certifications from "./pages/certifications/Certifications";
 import { Contact } from "./pages/contact/Contact";
+import NotFound from "./pages/notFound/NotFound";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/certifications" element={<Certifications />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Top />
         <section className="">
