@@ -37,7 +37,7 @@ const About = () => {
             include:
             <ul>
               <li>
-                **Frontend Technologies:** HTML, CSS, JavaScript, React.js,
+                **Frontend Technologies:** HTML, CSS, JavaScript, TypeScript, React.js,
                 Next.js, React Native
               </li>
               <li>**State Management:** Redux, Redux Toolkit</li>
