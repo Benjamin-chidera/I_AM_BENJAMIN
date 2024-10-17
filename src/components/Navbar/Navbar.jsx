@@ -225,7 +225,7 @@ export const Navbar = () => {
                   <FaWhatsapp size={20} color="black" />
                 </motion.a>
                 <motion.a
-                  href="www.linkedin.com/in/benjamin-chidera"
+                  href="https://www.linkedin.com/in/benjamin-chidera"
                   whileHover={{ scale: 1.5 }}
                   whileTap={{ scale: 0.9 }}
                   variants={socialLinkVariant}
