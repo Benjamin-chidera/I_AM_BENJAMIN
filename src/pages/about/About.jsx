@@ -1,5 +1,6 @@
-import React from "react";
-import ben from "../../assets/ben.jpeg";
+/* eslint-disable react/no-unescaped-entities */
+
+import db from "../../assets/db.png";
 
 const About = () => {
   return (
@@ -7,7 +8,7 @@ const About = () => {
       <section className="relative lg:sticky lg:top-10 lg:h-[350px] lg:w-[300px] transition-all duration-500">
         <img
           className="hidden lg:block h-full w-full object-cover cursor-pointer rounded-tl-xl rounded-tr-xl"
-          src={ben}
+          src={db}
           alt="Benjamin"
         />
       </section>

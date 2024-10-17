@@ -35,7 +35,7 @@ export const Hero = () => {
 
   return (
     <main
-      className="hero lg:flex justify-between py-20 w-full relative z-10 px-7 md:px-14"
+      className="hero lg:flex justify-between py-14 lg:py-20 w-full relative z-10 px-7 md:px-14"
       id="home"
     >
       <section className=" w-[80%] relative">
@@ -55,13 +55,12 @@ export const Hero = () => {
         >
           <section className=" relative">
             <p className=" mb-5">
-              <span className=" font-bold text-black">Hi, My </span> Name is{" "}
+              <span className=" font-bold text-black">Hi, My </span> Name is
             </p>
             <div className=" bg-white w-14 h-14 rounded-full absolute -top-4 -left-2 -z-30"></div>
           </section>
           <h1 className="text-[rebeccapurple] text-lg md:text-4xl font-bold flex items-center gap-1">
             BENJAMIN CHIDERA BENJAMIN.
-           
           </h1>
           <h2 className=" text-xl  font-semibold leading-9  lg:max-w-[400px] mt-3">
             I'm currently a FULL STACK DEVELOPER based in Lagos, Nigeria.
@@ -152,7 +151,7 @@ export const Hero = () => {
             <FaWhatsapp size={20} />
           </motion.a>
           <motion.a
-            href="https://www.linkedin.com/in/benjamin-benjamin"
+            href="www.linkedin.com/in/benjamin-chidera"
             whileHover={{ scale: 1.5 }}
             whileTap={{ scale: 0.9 }}
           >

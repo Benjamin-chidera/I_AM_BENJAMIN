@@ -11,6 +11,7 @@ import About from "./pages/about/About";
 import Certifications from "./pages/certifications/Certifications";
 import { Contact } from "./pages/contact/Contact";
 import NotFound from "./pages/notFound/NotFound";
+import Experience from "./pages/experience/experience";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<Hero />} />
           <Route path="/about" element={<About />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/experience" element={<Experience />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/certifications" element={<Certifications />} />

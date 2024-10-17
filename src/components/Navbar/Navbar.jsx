@@ -1,14 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaGithub, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import db from "../../assets/db.png";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const items = ["about", "projects", "contact", "skills", "certifications"];
+  const items = [
+    "about",
+    "projects",
+    "experience",
+    "contact",
+    "skills",
+    "certifications",
+  ];
 
   const handleClose = () => {
     setOpen(false);
@@ -129,8 +137,8 @@ export const Navbar = () => {
         initial="hidden"
         animate="visible"
       >
-        <Link to={"/"} className="font-bold text-xl">
-          I_AM_BENJAMIN 👨🏾‍💻
+        <Link to={"/"} className="font-bold text-xl w-14 h-14">
+          <img src={db} alt="" className="w-full h-full" />
         </Link>
 
         <section className="hidden lg:flex flex-col gap-5 items-center"></section>
@@ -172,7 +180,7 @@ export const Navbar = () => {
                   >
                     <Link
                       to={t}
-                      className="text-black text-4xl"
+                      className="text-black text-2xl lg:text-4xl"
                       onClick={handleClose}
                     >
                       {t}
@@ -217,7 +225,7 @@ export const Navbar = () => {
                   <FaWhatsapp size={20} color="black" />
                 </motion.a>
                 <motion.a
-                  href="https://www.linkedin.com/in/benjamin-benjamin"
+                  href="www.linkedin.com/in/benjamin-chidera"
                   whileHover={{ scale: 1.5 }}
                   whileTap={{ scale: 0.9 }}
                   variants={socialLinkVariant}

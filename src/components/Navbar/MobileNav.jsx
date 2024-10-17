@@ -1,6 +1,7 @@
-import React from "react";
+
 import { motion } from "framer-motion";
 
+// eslint-disable-next-line react/prop-types
 export const MobileNav = ({ handleClose }) => {
   const items = ["home", "portfolio", "contact", "skills"];
 
