@@ -99,24 +99,26 @@ export const Hero = () => {
           },
         }}
       >
-        <motion.img
-          className="hidden lg:block h-[350px] w-[300px] object-cover cursor-pointer rounded-tl-xl rounded-tr-xl"
-          src={ben}
-          alt=""
-          drag
-          dragConstraints={{
-            right: "20",
-            left: "20",
-            top: "10",
-            bottom: "10",
-          }}
-          whileHover={{
-            scale: 1.1,
-          }}
-          transition={{
-            duration: 1,
-          }}
-        />
+        <motion.div className="relative" style={{ height: 400, width: 350 }}>
+          <motion.img
+            className="hidden lg:block h-[350px] w-[300px] object-cover cursor-pointer rounded-tl-xl rounded-tr-xl"
+            src={ben}
+            alt="Profile"
+            drag
+            dragConstraints={{
+              left: -50, // Allow dragging 50px to the left
+              right: 50, // Allow dragging 50px to the right
+              top: -50, // Allow dragging 50px upward
+              bottom: 50, // Allow dragging 50px downward
+            }}
+            whileHover={{
+              scale: 1.1,
+            }}
+            transition={{
+              duration: 1,
+            }}
+          />
+        </motion.div>
 
         <div className="flex items-center gap-10 md:gap-14 mt-10">
           <motion.a
