@@ -63,7 +63,7 @@ export const Hero = () => {
             BENJAMIN CHIDERA BENJAMIN.
           </h1>
           <h2 className=" text-xl  font-semibold leading-9  lg:max-w-[400px] mt-3">
-            I'm currently a SOFTWARE ENGINEER based in Dundee, Scotland.
+            I am a SOFTWARE ENGINEER based in Dundee, Scotland.
           </h2>
 
           <button
