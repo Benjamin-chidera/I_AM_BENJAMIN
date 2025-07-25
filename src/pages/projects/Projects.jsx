@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
-import React from "react";
-import yem from "../../assets/yem.png";
+
+import studym8 from "../../assets/studym8.png";
 import Pos from "../../assets/Pos.png";
 import JOBME from "../../assets/JOBME.png";
 import swiftCart from "../../assets/swiftCart.png";
@@ -28,7 +28,7 @@ export const Projects = () => {
 
       <section className=" flex flex-col gap-20 mt-10 mx-5">
         <section className=" lg:flex justify-center gap-10">
-          {/* YEMSAYS */}
+          {/* STUDM8 */}
           <motion.section
             className="md:flex justify-center gap-10 mt-5"
             initial={{
@@ -42,25 +42,28 @@ export const Projects = () => {
             }}
           >
             <div>
-              <img src={yem} alt="" className=" w-[150px] mb-5 md:mb-0" />
+              <img src={studym8} alt="" className=" w-[150px] mb-5 md:mb-0" />
             </div>
 
             <div>
               <p className="max-w-lg">
-                YemSays is a comprehensive real estate project designed to
-                provide customers with a seamless experience in viewing and
-                booking properties. The platform allows customers to browse
-                through a diverse range of properties, view detailed
-                information, and schedule inspections to physically visit the
-                properties they are interested in. Additionally, the system
-                empowers administrators with the capability to upload available
-                properties, manage property listings, and oversee the bookings
-                made by customers for property inspections.
+                StudyM8 is a comprehensive AI-powered productivity tool designed
+                to provide students with a seamless experience in organizing,
+                planning, and tracking their study activities. The platform
+                allows users to upload unstructured learning materials—such as
+                images, PDFs, or notes—from which it intelligently extracts and
+                summarizes key information. Based on this, it generates a
+                structured study roadmap with estimated completion times for
+                each topic. Users can customize their study calendar, mark tasks
+                as completed, and track their progress over time. Additionally,
+                the system empowers users with features such as intelligent
+                reminders, availability-based scheduling, and a history log to
+                ensure consistent learning and improved academic outcomes.
               </p>
 
               <div className="flex items-center gap-10 mt-7">
                 <motion.a
-                  href=" https://github.com/Benjamin-chidera/yemSays-RealEstate"
+                  href="https://github.com/Benjamin-chidera/automated-study-planner"
                   target="_blank"
                   initial={{
                     scale: 0.9,
@@ -78,7 +81,7 @@ export const Projects = () => {
                   <FaGithub size={27} />
                 </motion.a>
                 <motion.a
-                  href="https://yem-says-fawn.vercel.app/"
+                  href="https://studym8.vercel.app/"
                   target="_blank"
                   initial={{
                     scale: 0.9,
