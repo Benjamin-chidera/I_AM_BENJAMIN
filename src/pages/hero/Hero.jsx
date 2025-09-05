@@ -25,7 +25,7 @@ export const Hero = () => {
     const downloadLink = document.createElement("a");
 
     downloadLink.href =
-      "https://drive.google.com/file/d/13AoxSsT3XZ4uUT39dP-_arKp8eQzdbRp/view?usp=drive_link";
+      "https://drive.google.com/file/d/1nMpSt8IWKP1G_G0dEbAFHyX7dEihbNKV/view?usp=drive_link";
 
     downloadLink.download = "resume.pdf";
     document.body.appendChild(downloadLink);
@@ -63,7 +63,7 @@ export const Hero = () => {
             BENJAMIN CHIDERA BENJAMIN.
           </h1>
           <h2 className=" text-xl  font-semibold leading-9  lg:max-w-[400px] mt-3">
-            I am a SOFTWARE ENGINEER based in Dundee, Scotland.
+            I am a SOFTWARE / AI ENGINEER based in Dundee, Scotland.
           </h2>
 
           <button
