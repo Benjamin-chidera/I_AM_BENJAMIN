@@ -1,6 +1,7 @@
-/* eslint-disable react/prop-types */
+
 
 import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 
 // Frontend
 // import html from "../../assets/frontend/html.png";
@@ -61,6 +62,15 @@ const SkillGrid = ({ skills }) => (
     ))}
   </section>
 );
+SkillGrid.propTypes = {
+  skills: PropTypes.arrayOf(
+    PropTypes.shape({
+      src: PropTypes.string.isRequired,
+      alt: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
+
 
 export const Skills = () => {
   const frontendSkills = [

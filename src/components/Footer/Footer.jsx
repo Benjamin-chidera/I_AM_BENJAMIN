@@ -1,9 +1,11 @@
-import React from "react";
+
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
 export const Footer = () => {
   const location = useLocation();
+
+  const date = new Date().getFullYear();
 
   if (location.pathname === "/") {
     return null;
@@ -22,7 +24,7 @@ export const Footer = () => {
         duration: 1,
       }}
     >
-      &copy; 2024 | Code with 💻👨‍💻 Benjamin Chidera
+      &copy; {date} | Code with 💻👨‍💻 Benjamin Chidera
     </motion.div>
   );
 };
