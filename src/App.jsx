@@ -16,7 +16,7 @@ import { Skills } from "./pages/skills/Skills";
 
 function App() {
   return (
-    <main className="container mx-auto pt-3">
+    <main className="container mx-auto pt-3 min-h-screen">
       <BrowserRouter>
         <Cursor />
 

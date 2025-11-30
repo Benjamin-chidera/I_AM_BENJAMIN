@@ -2,19 +2,12 @@ body {
   background-color: #0c0c1d;
   color: lightgray;
   scroll-behavior: smooth;
-
   overflow-x: hidden !important;
-
   padding-bottom: 20px;
-}
-
-.main-section {
   /* height: 100vh; */
 }
 
-.hero {
-  /* height: calc(100vh - 100px); */
-}
+
 
 @media(min-width: 1024px) {
   .cursor{
