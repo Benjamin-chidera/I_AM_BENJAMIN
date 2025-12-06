@@ -26,7 +26,7 @@ export interface Skill {
 
 export interface Social {
   id: string;
-  platform: string;
+  platform_name: string;
   url: string;
   handle: string;
 }

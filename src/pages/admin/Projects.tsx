@@ -1,146 +1,295 @@
-import React, { useState } from 'react';
-import { Card, Button, Input, Modal, Badge, Textarea } from "../../components/UI"
-import { Project } from '../../types';
-import { Plus, Github, Globe, Edit, Trash, Folder } from 'lucide-react';
+import React, { useEffect } from "react";
+import {
+  Card,
+  Button,
+  Input,
+  Modal,
+  Badge,
+  Textarea,
+} from "../../components/UI";
+import { useProjectsStore } from "../../store/projects.store";
+import { Plus, Github, Globe, Edit, Trash, Folder, Upload } from "lucide-react";
 
 export const AdminProjects: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([
-    {
-      id: '1',
-      title: 'Neon Dashboard',
-      description: 'A React-based crypto dashboard with real-time data visualization.',
-      tags: ['React', 'Tailwind', 'Recharts'],
-      githubUrl: '#',
-      liveUrl: '#',
-      status: 'Completed'
-    },
-    {
-      id: '2',
-      title: 'AI Image Gen',
-      description: 'Wrapper around Gemini API to generate images from prompts.',
-      tags: ['AI', 'API', 'Python'],
-      githubUrl: '#',
-      liveUrl: '#',
-      status: 'In Development'
-    }
-  ]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentProject, setCurrentProject] = useState<Partial<Project>>({});
+  const {
+    projects,
+    getProjects,
+    createProject,
+    updateProject,
+    deleteProject,
+    isUpdating,
+    title,
+    setTitle,
+    description,
+    setDescription,
+    github_url,
+    setGithubUrl,
+    live_url,
+    setLiveUrl,
+    project_status,
+    setProjectStatus,
+    tools_used,
+    setToolsUsed,
+    project_image,
+    setProjectImage,
+    preview,
+    setPreview,
+    currentProjectId,
+    setCurrentProjectId,
+    clearForm,
+  } = useProjectsStore();
 
-  const handleSave = () => {
-    if (currentProject.id) {
-      setProjects(projects.map(p => p.id === currentProject.id ? currentProject as Project : p));
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
+      setPreview(url);
+      setProjectImage(file);
+    }
+  };
+
+  const handleSaveProject = async () => {
+    console.log(currentProjectId);
+
+    if (currentProjectId) {
+      await updateProject();
     } else {
-      setProjects([...projects, { ...currentProject, id: Date.now().toString(), tags: currentProject.tags || [] } as Project]);
+      await createProject();
     }
     setIsModalOpen(false);
-    setCurrentProject({});
+  };
+
+  const handleDeleteProject = (id: string) => {
+    if (confirm("Are you sure you want to delete this project?")) {
+      deleteProject(id);
+    }
+  };
+
+  const openEditModal = (project: any) => {
+    setCurrentProjectId(project.id);
+    setTitle(project.title);
+    setDescription(project.description);
+    setGithubUrl(project.github_url);
+    setLiveUrl(project.live_url);
+    setProjectStatus(project.project_status);
+    setToolsUsed(project.tools_used || ""); // Change from [] to ""
+    setPreview(project.project_image);
+    setProjectImage(project.project_image);
+    setIsModalOpen(true);
+  };
+
+  const openCreateModal = () => {
+    clearForm();
+    setIsModalOpen(true);
   };
 
   const getStatusColor = (status: string) => {
-    switch(status) {
-      case 'Completed': return 'green';
-      case 'In Development': return 'yellow';
-      default: return 'cyan';
+    switch (status) {
+      case "Completed":
+        return "green";
+      case "In Development":
+        return "yellow";
+      case "Archived":
+        return "gray";
+      default:
+        return "cyan";
     }
-  }
+  };
+
+  useEffect(() => {
+    getProjects();
+  }, []);
 
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-xl font-semibold text-white">My Projects</h2>
-        <Button onClick={() => { setCurrentProject({status: 'In Development', tags: []}); setIsModalOpen(true); }}>
+        <Button onClick={openCreateModal}>
           <Plus size={18} className="mr-2" /> Add Project
         </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {projects.map((project) => (
-          <Card key={project.id} className="flex flex-col h-full group hover:bg-white/[0.03] transition-colors relative">
-             <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button onClick={() => { setCurrentProject(project); setIsModalOpen(true); }} className="p-2 bg-black/50 rounded-lg text-cyan-400 hover:bg-cyan-500 hover:text-white transition-all">
-                  <Edit size={16} />
-                </button>
-                <button onClick={() => setProjects(projects.filter(p => p.id !== project.id))} className="p-2 bg-black/50 rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition-all">
-                  <Trash size={16} />
-                </button>
-             </div>
+          <Card
+            key={project.id}
+            className="flex flex-col h-full group hover:bg-white/[0.03] transition-colors relative"
+          >
+            <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={() => openEditModal(project)}
+                className="p-2 bg-black/50 rounded-lg text-cyan-400 hover:bg-cyan-500 hover:text-white transition-all"
+              >
+                <Edit size={16} />
+              </button>
+              <button
+                onClick={() => handleDeleteProject(project.id)}
+                className="p-2 bg-black/50 rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition-all"
+              >
+                <Trash size={16} />
+              </button>
+            </div>
 
             <div className="mb-4">
+              {project.project_image && (
+                <div className="w-full h-40 rounded-lg overflow-hidden mb-4 bg-black/20">
+                  <img
+                    src={project.project_image}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )}
               <div className="flex items-center justify-between mb-2">
-                 <div className="p-3 bg-cyan-500/10 rounded-xl text-cyan-400">
-                    <Folder size={24} />
-                 </div>
-                 <Badge color={getStatusColor(project.status) as any}>{project.status}</Badge>
+                <div className="p-3 bg-cyan-500/10 rounded-xl text-cyan-400">
+                  <Folder size={24} />
+                </div>
+                <Badge color={getStatusColor(project.project_status) as any}>
+                  {project.project_status}
+                </Badge>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-              <p className="text-gray-400 text-sm line-clamp-3 mb-4">{project.description}</p>
-              
+              <h3 className="text-xl font-bold text-white mb-2">
+                {project.title}
+              </h3>
+              <p className="text-gray-400 text-sm line-clamp-3 mb-4">
+                {project.description}
+              </p>
+
               <div className="flex flex-wrap gap-2 mb-6">
-                {project.tags.map(tag => (
-                  <span key={tag} className="px-2 py-1 bg-white/5 rounded-md text-xs text-gray-300 border border-white/5">{tag}</span>
-                ))}
+                <span className="px-2 py-1 bg-white/5 rounded-md text-xs text-gray-300 border border-white/5">
+                  {project.tools_used}
+                </span>
               </div>
             </div>
 
             <div className="mt-auto flex gap-3 pt-4 border-t border-white/5">
-               <a href={project.githubUrl} className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-sm text-gray-300 transition-colors">
-                 <Github size={16} /> Code
-               </a>
-               <a href={project.liveUrl} className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-sm text-cyan-400 transition-colors">
-                 <Globe size={16} /> Live
-               </a>
+              <a
+                href={project.github_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-sm text-gray-300 transition-colors"
+              >
+                <Github size={16} /> Code
+              </a>
+              <a
+                href={project.live_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-sm text-cyan-400 transition-colors"
+              >
+                <Globe size={16} /> Live
+              </a>
             </div>
           </Card>
         ))}
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={currentProject.id ? "Edit Project" : "New Project"}>
-        <div className="space-y-4">
-          <Input 
-             label="Project Title" 
-             value={currentProject.title || ''} 
-             onChange={e => setCurrentProject({...currentProject, title: e.target.value})} 
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          clearForm();
+        }}
+        title={currentProjectId ? "Edit Project" : "New Project"}
+      >
+        <div className="space-y-4 max-h-[70vh] overflow-y-auto">
+          {/* Image Upload */}
+          <div>
+            <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">
+              Project Image
+            </label>
+            <div className="relative border-2 border-dashed border-white/10 rounded-lg p-6 text-center hover:border-cyan-500/50 transition-colors">
+              {preview ? (
+                <div className="relative">
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className="w-full h-40 object-cover rounded-lg"
+                  />
+                  <button
+                    onClick={() => {
+                      setPreview("");
+                      setProjectImage("");
+                    }}
+                    className="absolute top-2 right-2 bg-red-500/80 text-white px-2 py-1 rounded text-xs"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <Upload size={32} className="text-gray-500 mb-2" />
+                  <p className="text-sm text-gray-400">
+                    Click to upload project image
+                  </p>
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+            </div>
+          </div>
+
+          <Input
+            label="Project Title"
+            value={title || ""}
+            onChange={(e) => setTitle(e.target.value)}
           />
-          <Textarea 
-             label="Description" 
-             rows={3}
-             value={currentProject.description || ''} 
-             onChange={e => setCurrentProject({...currentProject, description: e.target.value})} 
+          <Textarea
+            label="Description"
+            rows={3}
+            value={description || ""}
+            onChange={(e) => setDescription(e.target.value)}
           />
           <div className="grid grid-cols-2 gap-4">
-            <Input 
-              label="GitHub URL" 
-              value={currentProject.githubUrl || ''} 
-              onChange={e => setCurrentProject({...currentProject, githubUrl: e.target.value})} 
+            <Input
+              label="GitHub URL"
+              value={github_url || ""}
+              onChange={(e) => setGithubUrl(e.target.value)}
             />
-            <Input 
-              label="Live URL" 
-              value={currentProject.liveUrl || ''} 
-              onChange={e => setCurrentProject({...currentProject, liveUrl: e.target.value})} 
+            <Input
+              label="Live URL"
+              value={live_url || ""}
+              onChange={(e) => setLiveUrl(e.target.value)}
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">Status</label>
-            <select 
+            <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">
+              Status
+            </label>
+            <select
               className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-2.5 text-gray-200 focus:outline-none focus:border-cyan-500/50"
-              value={currentProject.status || 'In Development'}
-              onChange={e => setCurrentProject({...currentProject, status: e.target.value as any})}
+              value={project_status || "In Development"}
+              onChange={(e) => setProjectStatus(e.target.value)}
             >
               <option value="In Development">In Development</option>
               <option value="Completed">Completed</option>
-              <option value="Archived">Archived</option>
             </select>
           </div>
-          <Input 
-             label="Tags (comma separated)" 
-             value={currentProject.tags?.join(', ') || ''} 
-             onChange={e => setCurrentProject({...currentProject, tags: e.target.value.split(',').map(s => s.trim())})} 
-             placeholder="React, Node.js, Design"
+          <Input
+            label="Tools Used (comma separated)"
+            value={tools_used || ""}
+            onChange={(e) => setToolsUsed(e.target.value)}
+            placeholder="React, Node.js, Tailwind"
           />
           <div className="flex justify-end gap-3 mt-6">
-             <Button variant="secondary" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-             <Button onClick={handleSave}>Save Project</Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setIsModalOpen(false);
+                clearForm();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleSaveProject} disabled={isUpdating}>
+              {isUpdating ? "Saving..." : "Save Project"}
+            </Button>
           </div>
         </div>
       </Modal>

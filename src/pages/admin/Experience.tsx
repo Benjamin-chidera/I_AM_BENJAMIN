@@ -1,46 +1,72 @@
-import React, { useState } from 'react';
-import { Card, Button, Input, Modal, Textarea } from "../../components/UI"
-import { Experience } from '../../types';
-import { Plus, Briefcase, Calendar, Trash2, Edit2 } from 'lucide-react';
+import React, { useEffect } from "react";
+import { Card, Button, Input, Modal, Textarea } from "../../components/UI";
+import { Plus, Briefcase, Calendar, Trash2, Edit2 } from "lucide-react";
+import { useExperienceStore } from "../../store/experience.store";
 
 export const AdminExperience: React.FC = () => {
-  const [experiences, setExperiences] = useState<Experience[]>([
-    {
-      id: '1',
-      role: 'Senior Frontend Engineer',
-      company: 'Tech Corp',
-      year: '2021 - Present',
-      description: 'Leading the frontend team in rebuilding the legacy dashboard using React and TypeScript.',
-      projects: ['Analytics Dashboard', 'Design System']
-    },
-    {
-      id: '2',
-      role: 'Web Developer',
-      company: 'StartUp Inc',
-      year: '2019 - 2021',
-      description: 'Developed responsive marketing websites and e-commerce platforms.',
-      projects: ['Corporate Site', 'Shopify Theme']
-    }
-  ]);
+  const {
+    experiences,
+    getExperiences,
+    createExperience,
+    updateExperience,
+    deleteExperience,
+    isUpdating,
+    role,
+    setRole,
+    company_name,
+    setCompanyName,
+    years,
+    setYears,
+    description,
+    setDescription,
+    projects_done,
+    setProjectsDone,
+    currentExperienceId,
+    setCurrentExperienceId,
+    clearForm,
+  } = useExperienceStore();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentExp, setCurrentExp] = useState<Partial<Experience>>({});
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
-  const handleSave = () => {
-    if (currentExp.id) {
-       setExperiences(experiences.map(e => e.id === currentExp.id ? currentExp as Experience : e));
+  const handleSaveExperience = async () => {
+    if (currentExperienceId) {
+      await updateExperience();
     } else {
-       setExperiences([...experiences, { ...currentExp, id: Date.now().toString(), projects: currentExp.projects || [] } as Experience]);
+      await createExperience();
     }
     setIsModalOpen(false);
-    setCurrentExp({});
   };
+
+  const handleDeleteExperience = (id: string) => {
+    if (confirm("Are you sure you want to delete this experience?")) {
+      deleteExperience(id);
+    }
+  };
+
+  const openEditModal = (exp: any) => {
+    setCurrentExperienceId(exp.id);
+    setRole(exp.role);
+    setCompanyName(exp.company_name);
+    setYears(exp.years);
+    setDescription(exp.description);
+    setProjectsDone(exp.projects_done || "");
+    setIsModalOpen(true);
+  };
+
+  const openCreateModal = () => {
+    clearForm();
+    setIsModalOpen(true);
+  };
+
+  useEffect(() => {
+    getExperiences();
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-10">
         <h2 className="text-xl font-semibold text-white">Work History</h2>
-        <Button onClick={() => { setCurrentExp({projects: []}); setIsModalOpen(true); }}>
+        <Button onClick={openCreateModal}>
           <Plus size={18} className="mr-2" /> Add Experience
         </Button>
       </div>
@@ -51,57 +77,107 @@ export const AdminExperience: React.FC = () => {
             <div className="absolute left-0 h-10 w-10 md:h-20 md:w-20 flex items-center justify-center rounded-full bg-[#0c0c1d] border-2 border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.3)] z-10">
               <Briefcase className="h-5 w-5 md:h-8 md:w-8 text-cyan-400" />
             </div>
-            
+
             <div className="ml-16 md:ml-32 w-full">
-               <Card className="hover:border-cyan-500/30 transition-all">
-                 <div className="flex justify-between items-start mb-4">
-                   <div>
-                     <h3 className="text-xl font-bold text-white">{exp.role}</h3>
-                     <h4 className="text-lg text-cyan-400 font-medium">{exp.company}</h4>
-                   </div>
-                   <div className="flex flex-col items-end gap-2">
-                     <span className="flex items-center text-xs font-mono text-gray-400 bg-white/5 px-2 py-1 rounded">
-                       <Calendar size={12} className="mr-2" /> {exp.year}
-                     </span>
-                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button onClick={() => { setCurrentExp(exp); setIsModalOpen(true); }} className="p-1.5 hover:bg-white/10 rounded text-cyan-400"><Edit2 size={14} /></button>
-                        <button onClick={() => setExperiences(experiences.filter(e => e.id !== exp.id))} className="p-1.5 hover:bg-white/10 rounded text-red-400"><Trash2 size={14} /></button>
-                     </div>
-                   </div>
-                 </div>
-                 
-                 <p className="text-gray-400 mb-4 leading-relaxed">{exp.description}</p>
-                 
-                 <div>
-                   <span className="text-xs uppercase tracking-wider text-gray-500 font-semibold">Key Projects</span>
-                   <div className="flex flex-wrap gap-2 mt-2">
-                     {exp.projects.map((proj, idx) => (
-                       <span key={idx} className="px-3 py-1 text-xs rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20">
-                         {proj}
-                       </span>
-                     ))}
-                   </div>
-                 </div>
-               </Card>
+              <Card className="hover:border-cyan-500/30 transition-all">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-white">{exp.role}</h3>
+                    <h4 className="text-lg text-cyan-400 font-medium">
+                      {exp.company_name}
+                    </h4>
+                  </div>
+                  <div className="flex flex-col items-end gap-2">
+                    <span className="flex items-center text-xs font-mono text-gray-400 bg-white/5 px-2 py-1 rounded">
+                      <Calendar size={12} className="mr-2" /> {exp.years}
+                    </span>
+                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => openEditModal(exp)}
+                        className="p-1.5 hover:bg-white/10 rounded text-cyan-400"
+                      >
+                        <Edit2 size={14} />
+                      </button>
+                      <button
+                        onClick={() => handleDeleteExperience(exp.id)}
+                        className="p-1.5 hover:bg-white/10 rounded text-red-400"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <p className="text-gray-400 mb-4 leading-relaxed">
+                  {exp.description}
+                </p>
+
+                {exp.projects_done && (
+                  <div>
+                    <span className="text-xs uppercase tracking-wider text-gray-500 font-semibold">
+                      Key Projects
+                    </span>
+                    <p className="text-sm text-purple-300 mt-2 px-3 py-2 bg-purple-500/10 rounded border border-purple-500/20">
+                      {exp.projects_done}
+                    </p>
+                  </div>
+                )}
+              </Card>
             </div>
           </div>
         ))}
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title={currentExp.id ? "Edit Experience" : "Add Experience"}>
-        <div className="space-y-4">
-          <Input label="Job Role" value={currentExp.role || ''} onChange={e => setCurrentExp({...currentExp, role: e.target.value})} />
-          <Input label="Company" value={currentExp.company || ''} onChange={e => setCurrentExp({...currentExp, company: e.target.value})} />
-          <Input label="Years (e.g., 2020 - 2022)" value={currentExp.year || ''} onChange={e => setCurrentExp({...currentExp, year: e.target.value})} />
-          <Textarea label="Description" rows={3} value={currentExp.description || ''} onChange={e => setCurrentExp({...currentExp, description: e.target.value})} />
-          <Input 
-             label="Projects (comma separated)" 
-             value={currentExp.projects?.join(', ') || ''} 
-             onChange={e => setCurrentExp({...currentExp, projects: e.target.value.split(',').map(s => s.trim())})} 
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          clearForm();
+        }}
+        title={currentExperienceId ? "Edit Experience" : "Add Experience"}
+      >
+        <div className="space-y-4 max-h-[70vh] overflow-y-auto">
+          <Input
+            label="Job Role"
+            value={role || ""}
+            onChange={(e) => setRole(e.target.value)}
+          />
+          <Input
+            label="Company"
+            value={company_name || ""}
+            onChange={(e) => setCompanyName(e.target.value)}
+          />
+          <Input
+            label="Years (e.g., 2020 - 2022)"
+            value={years || ""}
+            onChange={(e) => setYears(e.target.value)}
+          />
+          <Textarea
+            label="Description"
+            rows={3}
+            value={description || ""}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <Textarea
+            label="Key Projects Done"
+            rows={2}
+            value={projects_done || ""}
+            onChange={(e) => setProjectsDone(e.target.value)}
+            placeholder="e.g., Built API, Created UI Components, Database Optimization"
           />
           <div className="flex justify-end gap-3 mt-6">
-             <Button variant="secondary" onClick={() => setIsModalOpen(false)}>Cancel</Button>
-             <Button onClick={handleSave}>Save</Button>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setIsModalOpen(false);
+                clearForm();
+              }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handleSaveExperience} disabled={isUpdating}>
+              {isUpdating ? "Saving..." : "Save"}
+            </Button>
           </div>
         </div>
       </Modal>
