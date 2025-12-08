@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaGithub, FaInstagram, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import { IoCloseSharp } from "react-icons/io5";
@@ -6,9 +6,46 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import db from "../../assets/db.png";
+import { useSocialsStore } from "../../store/socials.store";
 
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { socials, getSocials } = useSocialsStore();
+
+  useEffect(() => {
+    getSocials();
+  }, [getSocials]);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [open]);
+
+  const getIconForPlatform = (platformName) => {
+    const platform = platformName.toLowerCase().trim();
+
+    switch (platform) {
+      case "github":
+        return FaGithub;
+      case "instagram":
+        return FaInstagram;
+      case "twitter":
+        return FaSquareXTwitter;
+      case "whatsapp":
+        return FaWhatsapp;
+      case "linkedin":
+        return FaLinkedin;
+      default:
+        return null;
+    }
+  };
+
   const items = [
     "about",
     "projects",
@@ -130,7 +167,7 @@ export const Navbar = () => {
   };
 
   return (
-    <main className="bg-[#0c0c1d] shadow-2xl p-5 z-20">
+    <main className="bg-[#0c0c1d] shadow-2xl p-5 z-20 overyh">
       <motion.main
         className="flex justify-between items-center lg:px-7 w-full"
         variants={navVariants}
@@ -192,46 +229,29 @@ export const Navbar = () => {
                 className="flex items-center gap-10 md:gap-14 absolute bottom-32 lg:bottom-8"
                 variants={containerVariant}
               >
-                <motion.a
-                  href="https://github.com/Benjamin-chidera"
-                  whileHover={{ scale: 1.5 }}
-                  whileTap={{ scale: 0.9 }}
-                  variants={socialLinkVariant}
-                >
-                  <FaGithub size={20} color="black" />
-                </motion.a>
-                <motion.a
-                  href="https://instagram.com/benjamin_c.dev?igshid=MzMyNGUyNmU2YQ=="
-                  whileHover={{ scale: 1.5 }}
-                  whileTap={{ scale: 0.9 }}
-                  variants={socialLinkVariant}
-                >
-                  <FaInstagram size={20} color="black" />
-                </motion.a>
-                <motion.a
-                  href="https://twitter.com/BenjaminChide14"
-                  whileHover={{ scale: 1.5 }}
-                  whileTap={{ scale: 0.9 }}
-                  variants={socialLinkVariant}
-                >
-                  <FaSquareXTwitter size={20} color="black" />
-                </motion.a>
-                <motion.a
-                  href="https://wa.me/09048401533"
-                  whileHover={{ scale: 1.5 }}
-                  whileTap={{ scale: 0.9 }}
-                  variants={socialLinkVariant}
-                >
-                  <FaWhatsapp size={20} color="black" />
-                </motion.a>
-                <motion.a
-                  href="https://www.linkedin.com/in/benjamin-chidera"
-                  whileHover={{ scale: 1.5 }}
-                  whileTap={{ scale: 0.9 }}
-                  variants={socialLinkVariant}
-                >
-                  <FaLinkedin size={20} color="black" />
-                </motion.a>
+                <div className="flex items-center gap-10 md:gap-14 mt-10">
+                  {socials.map((soc) => {
+                    const IconComponent = getIconForPlatform(soc.platform_name);
+
+                    if (!IconComponent) {
+                      return null; // Skip if no matching icon
+                    }
+
+                    return (
+                      <motion.a
+                        key={soc.id}
+                        href={soc.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.5 }}
+                        whileTap={{ scale: 0.9 }}
+                        variants={socialLinkVariant}
+                      >
+                        <IconComponent size={20} />
+                      </motion.a>
+                    );
+                  })}
+                </div>
               </motion.div>
             </motion.div>
           </motion.section>

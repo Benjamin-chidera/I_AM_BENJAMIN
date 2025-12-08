@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { create } from "zustand";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface Skill {
   id: string;
@@ -79,12 +80,16 @@ export const useSkillsStore = create<SkillsState>((set) => ({
       );
 
       console.log(data);
+      toast.success(data.message || "Skill created successfully!"); // Success toast
 
       set({ isStored: true, isUpdating: false });
       useSkillsStore.getState().clearForm();
       await useSkillsStore.getState().getSkills();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to create skill."
+      ); // Error toast
       set({ isUpdating: false });
     }
   },
@@ -96,6 +101,7 @@ export const useSkillsStore = create<SkillsState>((set) => ({
       useSkillsStore.getState();
 
     if (!currentSkillId) {
+      toast.error("No skill selected for update."); // Error toast
       set({ isUpdating: false });
       return;
     }
@@ -116,44 +122,60 @@ export const useSkillsStore = create<SkillsState>((set) => ({
         formData
       );
 
+      toast.success(data.message || "Skill updated successfully!"); // Success toast
+
       set({ isStored: true, isUpdating: false });
       useSkillsStore.getState().clearForm();
       await useSkillsStore.getState().getSkills();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to update skill."
+      ); // Error toast
       set({ isUpdating: false });
     }
   },
 
   //   get all skills
-getSkills: async () => {
-  try {
-    const { data } = await axios(`${import.meta.env.VITE_API_URL}/skills`);
+  getSkills: async () => {
+    try {
+      const { data } = await axios(`${import.meta.env.VITE_API_URL}/skills`);
 
-    const validTypes = ["frontend", "backend", "ai/ml", "tools"];
+      const validTypes = ["frontend", "backend", "ai/ml", "tools"];
 
-    const normalized = data.map((skill: any) => ({
-      ...skill,
-      skills_type: validTypes.includes(skill.skills_type)
-        ? skill.skills_type
-        : "frontend",
-    }));
+      const normalized = data.map((skill: any) => ({
+        ...skill,
+        skills_type: validTypes.includes(skill.skills_type)
+          ? skill.skills_type
+          : "frontend",
+      }));
 
-    set({ skills: normalized, isStored: true });
-  } catch (error) {
-    console.log(error);
-  }
-},
-
+      set({ skills: normalized, isStored: true });
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to fetch skills."
+      ); // Error toast
+      set({ isUpdating: false });
+    }
+  },
 
   //   delete skill
   deleteSkill: async (id: string) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/skills/${id}`);
+      const { data } = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/skills/${id}`
+      );
+
+      toast.success(data.message || "Skill deleted successfully!"); // Success toast
       set({ isStored: true });
       await useSkillsStore.getState().getSkills();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to delete skill."
+      ); // Error toast
+      set({ isUpdating: false });
     }
   },
 }));

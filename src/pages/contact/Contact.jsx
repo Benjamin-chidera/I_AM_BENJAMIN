@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 import { IoCall } from "react-icons/io5";
@@ -72,7 +72,7 @@ export const Contact = () => {
                 href="tel:+2349048401533"
                 className="text-blue-500 hover:underline"
               >
-                +234 9048 40153 3
+                +44 0787 627 6783
               </a>
             </p>
           </div>

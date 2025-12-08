@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { create } from "zustand";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface AboutState {
   about_me: string | null;
@@ -32,6 +33,7 @@ export const useAboutStore = create<AboutState>((set) => ({
         `${import.meta.env.VITE_API_URL}/about`,
         { about_me }
       );
+      toast.success(data.message || "About section uploaded successfully!"); // Success toast
       set({
         about_me: data.about_me,
         isStored: true,
@@ -41,6 +43,10 @@ export const useAboutStore = create<AboutState>((set) => ({
       await useAboutStore.getState().getAbout();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error ||
+          "Failed to upload about section."
+      ); // Error toast
       set({ isModalOpen: true, isUpdating: false });
     }
   },
@@ -53,6 +59,10 @@ export const useAboutStore = create<AboutState>((set) => ({
       set({ about_me: data.about_me, isStored: true, isModalOpen: false });
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to fetch about section."
+      ); // Error toast
+      set({ isStored: false }); // No about found
     }
   },
 
@@ -67,6 +77,7 @@ export const useAboutStore = create<AboutState>((set) => ({
         { about_me }
       );
 
+      toast.success(data.message || "About section updated successfully!"); // Success toast
       set({
         about_me: data.about_me,
         isStored: true,
@@ -76,6 +87,10 @@ export const useAboutStore = create<AboutState>((set) => ({
       await useAboutStore.getState().getAbout();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error ||
+          "Failed to update about section."
+      ); // Error toast
       set({ isModalOpen: true, isUpdating: false });
     }
   },

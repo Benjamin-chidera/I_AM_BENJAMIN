@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { create } from "zustand";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface Certification {
   id: string;
@@ -78,12 +79,17 @@ export const useCertificationsStore = create<CertificationsState>((set) => ({
       );
 
       console.log(data);
+      toast.success(data.message || "Certification created successfully!"); // Success toast
 
       set({ isStored: true, isUpdating: false, isModalOpen: false });
       useCertificationsStore.getState().clearForm();
       await useCertificationsStore.getState().getCertifications();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error ||
+          "Failed to create certification."
+      ); // Error toast
       set({ isUpdating: false, isModalOpen: true });
     }
   },
@@ -100,12 +106,15 @@ export const useCertificationsStore = create<CertificationsState>((set) => ({
     } = useCertificationsStore.getState();
 
     if (!currentCertId) {
+      toast.error("No certification selected for update."); // Error toast
       set({ isUpdating: false });
       return;
     }
+    console.log(currentCertId);
+    
 
     try {
-      const { data } = await axios.put(
+      const { data } = await axios.patch(
         `${import.meta.env.VITE_API_URL}/certifications/${currentCertId}`,
         {
           cert_name,
@@ -115,11 +124,17 @@ export const useCertificationsStore = create<CertificationsState>((set) => ({
         }
       );
 
+      toast.success(data.message || "Certification updated successfully!"); // Success toast
+
       set({ isStored: true, isUpdating: false, isModalOpen: false });
       useCertificationsStore.getState().clearForm();
       await useCertificationsStore.getState().getCertifications();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error ||
+          "Failed to update certification."
+      ); // Error toast
       set({ isUpdating: false, isModalOpen: true });
     }
   },
@@ -134,19 +149,31 @@ export const useCertificationsStore = create<CertificationsState>((set) => ({
       set({ certifications: data, isStored: true });
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error ||
+          "Failed to fetch certifications."
+      ); // Error toast
+      set({ isUpdating: false, isStored: false });
     }
   },
 
   //   delete certification
   deleteCertification: async (id: string) => {
     try {
-      await axios.delete(
+      const { data } = await axios.delete(
         `${import.meta.env.VITE_API_URL}/certifications/${id}`
       );
+
+      toast.success(data.message || "Certification deleted successfully!"); // Success toast
       set({ isStored: true });
       await useCertificationsStore.getState().getCertifications();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error ||
+          "Failed to delete certification."
+      ); // Error toast
+      set({ isUpdating: false });
     }
   },
 }));

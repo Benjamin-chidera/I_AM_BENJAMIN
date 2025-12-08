@@ -10,6 +10,9 @@ import {
   Image as ImageIcon,
 } from "lucide-react";
 import { useSkillsStore } from "../../store/skills.store";
+import { Toaster } from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 type CategoryId = "Frontend" | "Backend" | "AI/ML" | "Tools";
 type SkillCategory = "frontend" | "backend" | "ai/ml" | "tools";
@@ -32,6 +35,7 @@ export const AdminSkills: React.FC = () => {
     skills,
     getSkills,
     createSkill,
+    updateSkill,
     deleteSkill,
     isUpdating,
     skills_name,
@@ -46,6 +50,7 @@ export const AdminSkills: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newSkillName, setNewSkillName] = useState("");
   const [targetCategory, setTargetCategory] = useState<CategoryId>("Frontend");
+  const [loading, setLoading] = useState(true);
 
   const categories = [
     {
@@ -120,11 +125,57 @@ export const AdminSkills: React.FC = () => {
   };
 
   useEffect(() => {
-    getSkills();
+    const fetchSkills = async () => {
+      setLoading(true);
+      await getSkills();
+      setLoading(false);
+    };
+    fetchSkills();
   }, [getSkills]);
+
+  if (loading) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <Skeleton width={250} height={32} />
+          <Skeleton width={350} height={16} className="mt-2" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div
+              key={index}
+              className="rounded-3xl border border-white/10 bg-[#0f0f1a] overflow-hidden flex flex-col h-full"
+            >
+              <div className="p-6 flex items-start justify-between border-b border-white/5">
+                <div className="flex items-center gap-4 w-full">
+                  <Skeleton circle={true} height={50} width={50} />
+                  <div className="flex-1">
+                    <Skeleton width={150} height={20} className="mb-2" />
+                    <Skeleton width={120} height={14} />
+                  </div>
+                </div>
+                <Skeleton width={40} height={40} />
+              </div>
+
+              <div className="p-6 flex-1">
+                <div className="flex flex-wrap gap-3">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <Skeleton key={i} width={120} height={36} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
+      <Toaster position="top-right" />
+
       <div>
         <h2 className="text-2xl font-bold text-white tracking-tight">
           Skills & Technologies
@@ -160,7 +211,8 @@ export const AdminSkills: React.FC = () => {
               </div>
               <button
                 onClick={() => handleOpenAdd(cat.id)}
-                className={`p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors border border-white/5`}
+                disabled={isUpdating}
+                className={`p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors border border-white/5 disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 <Plus size={18} />
               </button>
@@ -195,7 +247,8 @@ export const AdminSkills: React.FC = () => {
                       </span>
                       <button
                         onClick={() => handleDeleteSkill(skill.id)}
-                        className="absolute right-2 p-1 rounded-md text-gray-600 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                        disabled={isUpdating}
+                        className="absolute right-2 p-1 rounded-md text-gray-600 hover:text-red-400 hover:bg-red-500/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <X size={14} />
                       </button>
@@ -209,7 +262,8 @@ export const AdminSkills: React.FC = () => {
                     <p className="text-sm text-gray-600">No skills added yet</p>
                     <button
                       onClick={() => handleOpenAdd(cat.id)}
-                      className="text-xs text-cyan-500 hover:underline mt-1"
+                      disabled={isUpdating}
+                      className="text-xs text-cyan-500 hover:underline mt-1 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Add one +
                     </button>
@@ -223,7 +277,13 @@ export const AdminSkills: React.FC = () => {
 
       <Modal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          clearForm();
+          setNewSkillName("");
+          setPreview("");
+          setSkillsImg(null);
+        }}
         title={`Add to ${targetCategory}`}
       >
         <div className="space-y-6">
@@ -248,6 +308,7 @@ export const AdminSkills: React.FC = () => {
             placeholder="e.g. GraphQL, Figma, AWS Lambda"
             value={newSkillName}
             onChange={(e) => setNewSkillName(e.target.value)}
+            disabled={isUpdating}
             autoFocus
           />
 
@@ -269,7 +330,8 @@ export const AdminSkills: React.FC = () => {
                       setPreview("");
                       setSkillsImg(null);
                     }}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs"
+                    disabled={isUpdating}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs disabled:opacity-50"
                   >
                     ×
                   </button>
@@ -284,16 +346,30 @@ export const AdminSkills: React.FC = () => {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
-                className="absolute inset-0 opacity-0 cursor-pointer"
+                disabled={isUpdating}
+                className="absolute inset-0 opacity-0 cursor-pointer disabled:cursor-not-allowed"
               />
             </div>
           </div>
 
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="secondary" onClick={() => setIsModalOpen(false)}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setIsModalOpen(false);
+                clearForm();
+                setNewSkillName("");
+                setPreview("");
+                setSkillsImg(null);
+              }}
+              disabled={isUpdating}
+            >
               Cancel
             </Button>
-            <Button onClick={handleAddSkill} disabled={isUpdating}>
+            <Button
+              onClick={handleAddSkill}
+              disabled={isUpdating || !newSkillName.trim()}
+            >
               {isUpdating ? "Saving..." : "Add Skill"}
             </Button>
           </div>

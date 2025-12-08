@@ -1,17 +1,83 @@
 /* eslint-disable react/no-unknown-property */
 
-import studym8 from "../../assets/studym8.png";
-import Pos from "../../assets/Pos.png";
-import JOBME from "../../assets/JOBME.png";
-import swiftCart from "../../assets/swiftCart.png";
-import { FaGithub, FaInternetExplorer } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
+import { ExternalLink, ImageIcon } from "lucide-react";
 import { motion } from "framer-motion";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useProjectsStore } from "../../store/projects.store";
+import { useEffect, useState } from "react";
 
 export const Projects = () => {
+  const { projects, getProjects, isUpdating } = useProjectsStore();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      setLoading(true);
+      await getProjects();
+      setLoading(false);
+    };
+    fetchProjects();
+  }, [getProjects]);
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Completed":
+        return "bg-emerald-500/20 text-emerald-400 border-emerald-500/30";
+      case "In Development":
+        return "bg-blue-500/20 text-blue-400 border-blue-500/30";
+      default:
+        return "bg-gray-500/20 text-gray-400 border-gray-500/30";
+    }
+  };
+
+  if (loading) {
+    return (
+      <main className="lg:px-5" id="portfolio">
+        <motion.section
+          className="gap-2 px-6 pt-10"
+          initial={{
+            x: -200,
+            opacity: 0,
+          }}
+          whileInView={{
+            x: 0,
+            opacity: 1,
+          }}
+        >
+          <h1 className="text-2xl font-semibold">PROJECTS</h1>
+        </motion.section>
+
+        <section className="flex flex-col gap-20 mt-10 mx-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {Array.from({ length: projects.length || 4 }).map((_, index) => (
+              <div
+                key={index}
+                className="bg-[#13132b] rounded-3xl overflow-hidden border border-white/5"
+              >
+                <Skeleton height={400} />
+                <div className="p-6 space-y-4">
+                  <Skeleton width={200} height={24} />
+                  <Skeleton count={3} height={16} />
+                  <div className="flex gap-2 pt-4">
+                    <Skeleton width={80} height={20} />
+                    <Skeleton width={80} height={20} />
+                  </div>
+                  <Skeleton height={40} className="mt-4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </main>
+    );
+  }
+
   return (
-    <main className=" lg:px-5 " id="portfolio">
+    <main className="lg:px-5" id="portfolio">
       <motion.section
-        className=" gap-2 px-6  pt-10"
+        className="gap-2 px-6 pt-10"
         initial={{
           x: -200,
           opacity: 0,
@@ -21,314 +87,124 @@ export const Projects = () => {
           opacity: 1,
         }}
       >
-        {/* <div className="h-1 w-10 md:w-20 bg-slate-300"></div> */}
         <h1 className="text-2xl font-semibold">PROJECTS</h1>
-        {/* <div className="h-1 w-10 md:w-20 bg-slate-300"></div> */}
       </motion.section>
 
-      <section className=" flex flex-col gap-20 mt-10 mx-5">
-        <section className=" lg:flex justify-center gap-10">
-          {/* STUDM8 */}
-          <motion.section
-            className="md:flex justify-center gap-10 mt-5"
-            initial={{
-              opacity: 0,
-            }}
-            whileInView={{
-              opacity: 1,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-          >
-            <div>
-              <img src={studym8} alt="" className=" w-[150px] mb-5 md:mb-0" />
-            </div>
+      <section className="flex flex-col gap-20 mt-10 mx-5">
+        {projects.length === 0 ? (
+          <div className="text-center py-20">
+            <ImageIcon size={48} className="mx-auto text-gray-600 mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">
+              No Projects Yet
+            </h3>
+            <p className="text-gray-400">
+              Start by adding your first project to showcase your work.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {projects.map((project) => (
+              <motion.div
+                key={project.id}
+                className="group relative bg-[#13132b] rounded-3xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_40px_-10px_rgba(6,182,212,0.15)] flex flex-col"
+                initial={{
+                  opacity: 0,
+                }}
+                whileInView={{
+                  opacity: 1,
+                }}
+                transition={{
+                  duration: 0.7,
+                }}
+              >
+                {/* Image Section */}
+                <div className="relative h-56 w-full overflow-hidden bg-black/40">
+                  {project.project_image ? (
+                    <img
+                      src={project.project_image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 bg-gradient-to-br from-white/5 to-transparent">
+                      <ImageIcon size={40} className="mb-2 opacity-50" />
+                      <span className="text-xs uppercase tracking-widest font-medium">
+                        No Preview
+                      </span>
+                    </div>
+                  )}
 
-            <div>
-              <p className="max-w-lg">
-                StudyM8 is a comprehensive AI-powered productivity tool designed
-                to provide students with a seamless experience in organizing,
-                planning, and tracking their study activities. The platform
-                allows users to upload unstructured learning materials—such as
-                images, PDFs, or notes—from which it intelligently extracts and
-                summarizes key information. Based on this, it generates a
-                structured study roadmap with estimated completion times for
-                each topic. Users can customize their study calendar, mark tasks
-                as completed, and track their progress over time. Additionally,
-                the system empowers users with features such as intelligent
-                reminders, availability-based scheduling, and a history log to
-                ensure consistent learning and improved academic outcomes.
-              </p>
+                  {/* Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#13132b] via-[#13132b]/20 to-transparent opacity-80" />
 
-              <div className="flex items-center gap-10 mt-7">
-                <motion.a
-                  href="https://github.com/Benjamin-chidera/automated-study-planner"
-                  target="_blank"
-                  initial={{
-                    scale: 0.9,
-                  }}
-                  whileTap={{
-                    scale: 0.7,
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  transition={{
-                    duration: 1,
-                  }}
-                >
-                  <FaGithub size={27} />
-                </motion.a>
-                <motion.a
-                  href="https://studym8.vercel.app/"
-                  target="_blank"
-                  initial={{
-                    scale: 0.9,
-                  }}
-                  whileTap={{
-                    scale: 0.7,
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  transition={{
-                    duration: 1,
-                  }}
-                >
-                  <FaInternetExplorer size={27} />
-                </motion.a>
-              </div>
-            </div>
-          </motion.section>
+                  {/* Status Badge */}
+                  <div
+                    className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border backdrop-blur-md shadow-lg ${getStatusColor(
+                      project.project_status
+                    )}`}
+                  >
+                    {project.project_status}
+                  </div>
+                </div>
 
-          {/* POSTIT */}
-          <motion.section
-            className="md:flex justify-center gap-10 mt-5 "
-            initial={{
-              opacity: 0,
-            }}
-            whileInView={{
-              opacity: 1,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-          >
-            <div>
-              <img src={Pos} alt="" className=" w-[150px]  mb-5 md:mb-0" />
-            </div>
+                {/* Content Section */}
+                <div className="p-6 flex-1 flex flex-col relative z-10">
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors truncate">
+                      {project.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm leading-relaxed line-clamp-3 lg:h-[200px]">
+                      {project.description}
+                    </p>
 
-            <div>
-              <p className="max-w-lg">
-                PostIt is a dynamic blog site designed to facilitate seamless
-                posting, viewing, editing, and deletion of blog posts. The
-                platform empowers users to share their thoughts and ideas
-                through posts while providing an interactive experience for
-                readers to engage with the content. Key features include the
-                ability to create, view, edit, and delete posts, as well as
-                comment on posts and manage comments.
-              </p>
+                    {/* Tools/Tags */}
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {project.tools_used &&
+                        project.tools_used.split(",").map((tool, i) => (
+                          <span
+                            key={i}
+                            className="px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider text-cyan-200 bg-cyan-900/20 border border-cyan-500/10 rounded-lg"
+                          >
+                            {tool.trim()}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
 
-              <div className="flex items-center gap-10 mt-7">
-                <motion.a
-                  href="https://github.com/Benjamin-chidera/Postit-blog"
-                  target="_blank"
-                  initial={{
-                    scale: 0.9,
-                  }}
-                  whileTap={{
-                    scale: 0.7,
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  transition={{
-                    duration: 1,
-                  }}
-                >
-                  <FaGithub size={27} />
-                </motion.a>
-                <motion.a
-                  href="https://postit-blog-six.vercel.app/"
-                  target="_blank"
-                  initial={{
-                    scale: 0.9,
-                  }}
-                  whileTap={{
-                    scale: 0.7,
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  transition={{
-                    duration: 1,
-                  }}
-                >
-                  <FaInternetExplorer size={27} />
-                </motion.a>
-              </div>
-            </div>
-          </motion.section>
-        </section>
-
-        <section className=" lg:flex justify-center gap-10">
-          {/* SWIFT-CART */}
-          <motion.section
-            className="md:flex justify-center gap-10 mt-5"
-            initial={{
-              opacity: 0,
-            }}
-            whileInView={{
-              opacity: 1,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-          >
-            <div>
-              <img
-                src={swiftCart}
-                alt=""
-                className=" w-[150px]  mt-2 md:mb-0"
-              />
-
-              {/* <marquee behavior="smooth" direction="">
-              Coming soon.....
-            </marquee> */}
-            </div>
-
-            <div>
-              <p className="max-w-lg mt-3 lg:mt-0">
-                Swift Cart is a cutting-edge E-commerce destination designed
-                exclusively for shoppers. It boasts a wide array of products
-                spanning from trendy fashion. Customers on Swift Cart can dive
-                into a rich catalog, indulge in secure transactions,
-                effortlessly see their orders, and enjoy tailored
-                recommendations. The platform excels in user engagement,
-                offering hassle-free returns, and transparent reviews. Swift
-                Cart stands out as a premier shopping hub, delivering
-                unparalleled convenience and satisfaction to buyers.
-              </p>
-
-              <div className="flex items-center gap-10 mt-7">
-                <motion.a
-                  href="https://github.com/Benjamin-chidera/Swift-Cart-Client"
-                  target="_blank"
-                  initial={{
-                    scale: 0.9,
-                  }}
-                  whileTap={{
-                    scale: 0.7,
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  transition={{
-                    duration: 1,
-                  }}
-                >
-                  <FaGithub size={27} />
-                </motion.a>
-                <motion.a
-                  href="https://swift-cart-one.vercel.app/"
-                  target="_blank"
-                  initial={{
-                    scale: 0.9,
-                  }}
-                  whileTap={{
-                    scale: 0.7,
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  transition={{
-                    duration: 1,
-                  }}
-                >
-                  <FaInternetExplorer size={27} />
-                </motion.a>
-              </div>
-            </div>
-          </motion.section>
-
-          {/* JOBME*/}
-          <motion.section
-            className="md:flex justify-center gap-10 mt-5"
-            initial={{
-              opacity: 0,
-            }}
-            whileInView={{
-              opacity: 1,
-            }}
-            transition={{
-              duration: 0.7,
-            }}
-          >
-            <div>
-              <img src={JOBME} alt="" className=" w-[150px]  mb-5 md:mb-0" />
-
-              {/* <marquee behavior="smooth" direction="">
-              Coming soon.....
-            </marquee> */}
-            </div>
-
-            <div>
-              <p className="max-w-lg">
-                JOBME is a dynamic job marketplace designed to bridge the gap
-                between job seekers and employers. This platform allows job
-                seekers to browse a comprehensive list of job opportunities,
-                apply for positions that match their skills and interests, and
-                manage their applications seamlessly. Employers benefit from
-                JOBME by easily posting available job openings, reaching a broad
-                audience of qualified candidates, and managing applications
-                efficiently. The user-friendly interface and robust
-                functionality of JOBME ensure an efficient and streamlined
-                experience for both job seekers and employers, facilitating
-                successful connections and career growth.
-              </p>
-
-              <div className="flex items-center gap-10 mt-7">
-                <motion.a
-                  href="https://github.com/Benjamin-chidera/JOB_ME"
-                  target="_blank"
-                  initial={{
-                    scale: 0.9,
-                  }}
-                  whileTap={{
-                    scale: 0.7,
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  transition={{
-                    duration: 1,
-                  }}
-                >
-                  <FaGithub size={27} />
-                </motion.a>
-                <motion.a
-                  href="https://jobme.discoverbenix.com/"
-                  target="_blank"
-                  initial={{
-                    scale: 0.9,
-                  }}
-                  whileTap={{
-                    scale: 0.7,
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                  }}
-                  transition={{
-                    duration: 1,
-                  }}
-                >
-                  <FaInternetExplorer size={27} />
-                </motion.a>
-              </div>
-            </div>
-          </motion.section>
-        </section>
+                  {/* Footer Links */}
+                  <div className="mt-auto pt-5 border-t border-white/5 flex items-center justify-between gap-4">
+                    <a
+                      href={project.github_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/5 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-all group/btn disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={isUpdating}
+                    >
+                      <FaGithub
+                        size={16}
+                        className="text-gray-400 group-hover/btn:text-white transition-colors"
+                      />
+                      <span>Code</span>
+                    </a>
+                    <a
+                      href={project.live_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-cyan-500/10 text-sm font-medium text-cyan-400 hover:bg-cyan-500/20 hover:text-cyan-300 transition-all border border-cyan-500/20 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={isUpdating}
+                    >
+                      <ExternalLink
+                        size={16}
+                        className="group-hover/btn:scale-110 transition-transform"
+                      />
+                      <span>Live Demo</span>
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );

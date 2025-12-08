@@ -1,7 +1,12 @@
-import React, { useEffect } from "react";
-import { Card, Button, Textarea } from "../../components/UI";
+import React, { useEffect, useState } from "react";
+import { Card, Button } from "../../components/UI";
 import { Save, Eye, Edit3 } from "lucide-react";
 import { useAboutStore } from "../../store/about.store";
+import { Toaster } from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 export const AdminAbout: React.FC = () => {
   const {
@@ -14,29 +19,86 @@ export const AdminAbout: React.FC = () => {
     isUpdating,
   } = useAboutStore();
 
-  const [isPreview, setIsPreview] = React.useState(false);
+  const [isPreview, setIsPreview] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleSaveContent = async () => {
     if (isStored) {
-      // Profile exists, update it
       await updateAbout();
     } else {
-      // No profile yet, upload new one
       await uploadAbout();
     }
   };
 
   useEffect(() => {
-    getAbout();
+    const fetchAbout = async () => {
+      setLoading(true);
+      await getAbout();
+      setLoading(false);
+    };
+    fetchAbout();
   }, []);
+
+  // React Quill modules configuration
+  const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["blockquote", "code-block"],
+      [{ color: [] }, { background: [] }],
+      ["link"],
+      ["clean"],
+    ],
+  };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "list",
+    "bullet",
+    "blockquote",
+    "code-block",
+    "color",
+    "background",
+    "link",
+  ];
+
+  if (loading) {
+    return (
+      <div className="h-[calc(100vh-140px)] flex flex-col">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <Skeleton width={200} height={24} />
+            <Skeleton width={250} height={16} className="mt-2" />
+          </div>
+          <div className="flex space-x-3">
+            <Skeleton width={100} height={40} />
+            <Skeleton width={120} height={40} />
+          </div>
+        </div>
+        <Card className="flex-1 flex flex-col overflow-hidden p-8">
+          <Skeleton height={40} className="mb-4" />
+          <Skeleton height={40} className="mb-4" />
+          <Skeleton height={40} className="mb-4" />
+          <Skeleton height={100} />
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="h-[calc(100vh-140px)] flex flex-col">
+      <Toaster position="top-right" />
+
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-xl font-semibold text-white">About Section</h2>
           <p className="text-sm text-gray-500">
-            Write your bio using Markdown.
+            Write your bio using the rich text editor.
           </p>
         </div>
         <div className="flex space-x-3">
@@ -60,47 +122,193 @@ export const AdminAbout: React.FC = () => {
 
       <Card className="flex-1 flex flex-col overflow-hidden p-0 bg-[#0f0f1a]">
         {isPreview ? (
-          <div className="flex-1 p-8 overflow-y-auto prose prose-invert prose-cyan max-w-none">
-            {(about_me || "").split("\n").map((line, i) => {
-              if (line.startsWith("# "))
-                return (
-                  <h1 key={i} className="text-3xl font-bold mb-4 text-white">
-                    {line.replace("# ", "")}
-                  </h1>
-                );
-              if (line.startsWith("## "))
-                return (
-                  <h2
-                    key={i}
-                    className="text-2xl font-bold mb-3 mt-6 text-cyan-400"
-                  >
-                    {line.replace("## ", "")}
-                  </h2>
-                );
-              if (line.startsWith("- "))
-                return (
-                  <li key={i} className="ml-4 text-gray-300">
-                    {line.replace("- ", "")}
-                  </li>
-                );
-              if (line === "") return <br key={i} />;
-              return (
-                <p key={i} className="mb-2 text-gray-300 leading-relaxed">
-                  {line}
-                </p>
-              );
-            })}
-          </div>
-        ) : (
-          <textarea
-            className="flex-1 w-full h-full bg-transparent p-6 text-gray-200 resize-none focus:outline-none font-mono text-sm leading-relaxed"
-            value={about_me || ""}
-            onChange={(e) => setAbout_me(e.target.value)}
-            spellCheck={false}
-            placeholder="Write your bio using Markdown..."
+          <div
+            className="flex-1 p-8 overflow-y-auto prose prose-invert prose-cyan max-w-none"
+            dangerouslySetInnerHTML={{ __html: about_me || "" }}
           />
+        ) : (
+          <div className="flex-1 overflow-hidden">
+            <ReactQuill
+              theme="snow"
+              value={about_me || ""}
+              onChange={setAbout_me}
+              modules={modules}
+              formats={formats}
+              className="h-full"
+              style={{ height: "100%" }}
+            />
+          </div>
         )}
       </Card>
+
+      <style>{`
+        .ql-toolbar {
+          background: #1a1a2e;
+          border: 1px solid #2d2d44 !important;
+          border-radius: 8px 8px 0 0;
+        }
+        
+        .ql-container {
+          background: #0f0f1a;
+          border: 1px solid #2d2d44 !important;
+          border-top: none !important;
+          border-radius: 0 0 8px 8px;
+          font-size: 16px;
+          height: calc(100% - 42px) !important;
+        }
+        
+        .ql-editor {
+          color: #e5e5e5;
+          min-height: 400px;
+          font-family: 'Inter', sans-serif;
+          line-height: 1.6;
+        }
+        
+        .ql-editor.ql-blank::before {
+          color: #6b7280;
+          font-style: normal;
+        }
+        
+        .ql-toolbar button {
+          color: #9ca3af !important;
+        }
+        
+        .ql-toolbar button:hover {
+          color: #22d3ee !important;
+        }
+        
+        .ql-toolbar button.ql-active {
+          color: #22d3ee !important;
+        }
+        
+        .ql-stroke {
+          stroke: #9ca3af !important;
+        }
+        
+        .ql-toolbar button:hover .ql-stroke {
+          stroke: #22d3ee !important;
+        }
+        
+        .ql-toolbar button.ql-active .ql-stroke {
+          stroke: #22d3ee !important;
+        }
+        
+        .ql-fill {
+          fill: #9ca3af !important;
+        }
+        
+        .ql-toolbar button:hover .ql-fill {
+          fill: #22d3ee !important;
+        }
+        
+        .ql-toolbar button.ql-active .ql-fill {
+          fill: #22d3ee !important;
+        }
+        
+        .ql-picker-label {
+          color: #9ca3af !important;
+        }
+        
+        .ql-picker-label:hover {
+          color: #22d3ee !important;
+        }
+        
+        .ql-picker-options {
+          background: #1a1a2e !important;
+          border: 1px solid #2d2d44 !important;
+        }
+        
+        .ql-picker-item {
+          color: #e5e5e5 !important;
+        }
+        
+        .ql-picker-item:hover {
+          color: #22d3ee !important;
+        }
+        
+        /* Preview styles */
+        .prose h1 {
+          color: #ffffff;
+          font-size: 2.25rem;
+          font-weight: 700;
+          margin-bottom: 1rem;
+        }
+        
+        .prose h2 {
+          color: #22d3ee;
+          font-size: 1.875rem;
+          font-weight: 600;
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+        }
+        
+        .prose h3 {
+          color: #22d3ee;
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin-top: 1.5rem;
+          margin-bottom: 0.75rem;
+        }
+        
+        .prose p {
+          color: #d1d5db;
+          margin-bottom: 1rem;
+          line-height: 1.75;
+        }
+        
+        .prose strong {
+          color: #ffffff;
+          font-weight: 600;
+        }
+        
+        .prose em {
+          color: #d1d5db;
+        }
+        
+        .prose ul, .prose ol {
+          color: #d1d5db;
+          margin-left: 1.5rem;
+          margin-bottom: 1rem;
+        }
+        
+        .prose li {
+          margin-bottom: 0.5rem;
+        }
+        
+        .prose blockquote {
+          border-left: 4px solid #22d3ee;
+          padding-left: 1rem;
+          color: #9ca3af;
+          font-style: italic;
+          margin: 1.5rem 0;
+        }
+        
+        .prose code {
+          background: #1a1a2e;
+          color: #22d3ee;
+          padding: 0.25rem 0.5rem;
+          border-radius: 4px;
+          font-size: 0.875rem;
+        }
+        
+        .prose pre {
+          background: #1a1a2e;
+          color: #e5e5e5;
+          padding: 1rem;
+          border-radius: 8px;
+          overflow-x: auto;
+          margin: 1rem 0;
+        }
+        
+        .prose a {
+          color: #22d3ee;
+          text-decoration: none;
+        }
+        
+        .prose a:hover {
+          text-decoration: underline;
+        }
+      `}</style>
     </div>
   );
 };

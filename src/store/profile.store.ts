@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { create } from "zustand";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface SocialsState {
   isUpdating: boolean;
@@ -67,11 +68,15 @@ export const useProfileStore = create<SocialsState>((set) => ({
       );
 
       console.log(data);
+      toast.success(data.message || "Profile uploaded successfully!"); // Success toast
 
       set({ isStored: true, isUpdating: false });
       await useProfileStore.getState().getProfile();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to upload profile."
+      ); // Error toast
       set({ isUpdating: false });
     }
   },
@@ -97,10 +102,14 @@ export const useProfileStore = create<SocialsState>((set) => ({
         `${import.meta.env.VITE_API_URL}/profile`,
         formData
       );
+      toast.success(data.message || "Profile updated successfully!"); // Success toast
       set({ profile: data, isStored: true, isUpdating: false });
       await useProfileStore.getState().getProfile();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to update profile."
+      ); // Error toast
       set({ isUpdating: false });
     }
   },
@@ -114,6 +123,9 @@ export const useProfileStore = create<SocialsState>((set) => ({
       set({ profile: data, isStored: true });
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to fetch profile."
+      ); // Error toast
     }
   },
 }));

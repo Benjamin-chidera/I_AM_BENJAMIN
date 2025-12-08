@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Card, Button, Input, Modal } from "../../components/UI";
 import { FileText, ExternalLink, Trash2, Edit2, Upload } from "lucide-react";
 import { useResumeStore } from "../../store/resume.store";
+import { Toaster } from "react-hot-toast";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export const AdminResume: React.FC = () => {
   const [status, setStatus] = useState("isEditing");
@@ -14,7 +17,8 @@ export const AdminResume: React.FC = () => {
     getResume,
     updateResume,
     deleteResume,
-    isStored
+    isStored,
+    isUpdating,
   } = useResumeStore();
 
   const handleEdit = () => {
@@ -31,8 +35,40 @@ export const AdminResume: React.FC = () => {
     getResume();
   }, []);
 
+  // Show skeleton whenever loading/updating
+  if (isUpdating) {
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h2 className="text-lg text-gray-400">Manage Resume</h2>
+            <p className="text-sm text-gray-500">
+              Update your CV link visible to recruiters.
+            </p>
+          </div>
+        </div>
+        <Card className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center space-x-6 w-full">
+            <Skeleton circle width={64} height={64} />
+            <div className="flex-1 space-y-2">
+              <Skeleton width={160} height={18} />
+              <Skeleton width={"70%"} height={14} />
+              <Skeleton width={120} height={10} />
+            </div>
+          </div>
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <Skeleton width={80} height={40} />
+            <Skeleton width={100} height={40} />
+            <Skeleton width={60} height={40} />
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      <Toaster position="top-right" />
       <div className="flex justify-between items-center mb-8">
         <div>
           <h2 className="text-lg text-gray-400">Manage Resume</h2>
@@ -132,7 +168,7 @@ export const AdminResume: React.FC = () => {
                 status === "isEditing" ? updateResume() : uploadResume();
               }}
             >
-              Save Changes
+              {isUpdating ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </div>

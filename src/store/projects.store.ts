@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { create } from "zustand";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface Project {
   id: string;
@@ -112,12 +113,16 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
       );
 
       console.log(data);
+      toast.success(data.message || "Project created successfully!"); // Success toast
 
       set({ isStored: true, isUpdating: false });
       useProjectsStore.getState().clearForm();
       await useProjectsStore.getState().getProjects();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to create project."
+      ); // Error toast
       set({ isUpdating: false });
     }
   },
@@ -137,6 +142,7 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
     } = useProjectsStore.getState();
 
     if (!currentProjectId) {
+      toast.error("No project selected for update."); // Error toast
       set({ isUpdating: false });
       return;
     }
@@ -161,11 +167,15 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
         formData
       );
 
+      toast.success(data.message || "Project updated successfully!"); // Success toast
       set({ isStored: true, isUpdating: false });
       useProjectsStore.getState().clearForm();
       await useProjectsStore.getState().getProjects();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to update project."
+      ); // Error toast
       set({ isUpdating: false });
     }
   },
@@ -178,17 +188,28 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
       set({ projects: data, isStored: true });
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to fetch projects."
+      ); // Error toast
+       set({ isUpdating: false, isStored: false });
     }
   },
 
   //   delete project
   deleteProject: async (id: string) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/projects/${id}`);
+      const { data } = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/projects/${id}`
+      );
+      toast.success(data.message || "Project deleted successfully!"); // Success toast
       set({ isStored: true });
       await useProjectsStore.getState().getProjects();
     } catch (error) {
       console.log(error);
+      set({ isUpdating: false, isStored: false });
+      toast.error(
+        (error as any).response?.data?.error || "Failed to delete project."
+      ); // Error toast
     }
   },
 }));

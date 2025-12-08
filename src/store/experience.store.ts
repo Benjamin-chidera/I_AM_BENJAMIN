@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { create } from "zustand";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface Experience {
   id: string;
@@ -81,12 +82,16 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
       );
 
       console.log(data);
+      toast.success(data.message || "Experience created successfully!"); // Success toast
 
       set({ isStored: true, isUpdating: false });
       useExperienceStore.getState().clearForm();
       await useExperienceStore.getState().getExperiences();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to create experience."
+      ); // Error toast
       set({ isUpdating: false });
     }
   },
@@ -104,6 +109,7 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
     } = useExperienceStore.getState();
 
     if (!currentExperienceId) {
+      toast.error("No experience selected for update."); // Error toast
       set({ isUpdating: false });
       return;
     }
@@ -120,11 +126,16 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
         }
       );
 
+      toast.success(data.message || "Experience updated successfully!"); // Success toast
+
       set({ isStored: true, isUpdating: false });
       useExperienceStore.getState().clearForm();
       await useExperienceStore.getState().getExperiences();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to update experience."
+      ); // Error toast
       set({ isUpdating: false });
     }
   },
@@ -139,17 +150,29 @@ export const useExperienceStore = create<ExperienceState>((set) => ({
       set({ experiences: data, isStored: true });
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to fetch experiences."
+      ); // Error toast
+      set({ isUpdating: false });
     }
   },
 
   //   delete experience
   deleteExperience: async (id: string) => {
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/experience/${id}`);
+      const { data } = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/experience/${id}`
+      );
+
+      toast.success(data.message || "Experience deleted successfully!"); // Success toast
       set({ isStored: true });
       await useExperienceStore.getState().getExperiences();
     } catch (error) {
       console.log(error);
+      toast.error(
+        (error as any).response?.data?.error || "Failed to delete experience."
+      ); // Error toast
+      set({ isUpdating: false });
     }
   },
 }));

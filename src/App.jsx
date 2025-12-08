@@ -28,44 +28,47 @@ function AppContent() {
   const path = location.pathname;
 
   return (
-    <main
-      className={`${
-        path.includes("admin") ? "" : "container mx-auto"
-      } pt-3 min-h-screen `}
-    >
-      <Cursor />
+    <div className="flex flex-col min-h-screen overflow-x-hidden">
+      <main
+        className={`${
+          path.includes("admin") ? "" : "container mx-auto"
+        } pt-3 flex-1`}
+      >
+        <Cursor />
 
-      <Routes>
-        <Route element={<PageLayout />}>
-          <Route path="/" element={<Hero />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/experience" element={<Experience />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/skills" element={<Skills />} />
-          <Route path="/certifications" element={<Certifications />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-        <Route path="/discover-benix" element={<Portfolio />} />
+        <Routes>
+          <Route element={<PageLayout />}>
+            <Route path="/" element={<Hero />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/experience" element={<Experience />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/skills" element={<Skills />} />
+            <Route path="/certifications" element={<Certifications />} />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+          <Route path="/discover-benix" element={<Portfolio />} />
 
-        {/* will not appear in github */}
-        <Route path="/admin/discover-benix" element={<Layout />}>
-          <Route index element={<AdminResume />} />
-          <Route path="about" element={<AdminAbout />} />
-          <Route path="certifications" element={<AdminCertifications />} />
-          <Route path="experience" element={<AdminExperience />} />
-          <Route path="profile" element={<AdminProfile />} />
-          <Route path="projects" element={<AdminProjects />} />
-          <Route path="resume" element={<AdminResume />} />
-          <Route path="skills" element={<AdminSkills />} />
-          <Route path="socials" element={<AdminSocials />} />
-        </Route>
-        {/* will not appear in github */}
-      </Routes>
+          {/* will not appear in github */}
+          <Route path="/admin/discover-benix" element={<Layout />}>
+            <Route index element={<AdminResume />} />
+            <Route path="about" element={<AdminAbout />} />
+            <Route path="certifications" element={<AdminCertifications />} />
+            <Route path="experience" element={<AdminExperience />} />
+            <Route path="profile" element={<AdminProfile />} />
+            <Route path="projects" element={<AdminProjects />} />
+            <Route path="resume" element={<AdminResume />} />
+            <Route path="skills" element={<AdminSkills />} />
+            <Route path="socials" element={<AdminSocials />} />
+          </Route>
+          {/* will not appear in github */}
+        </Routes>
 
-      <Top />
+        <Top />
+      </main>
+
       <Footer />
-    </main>
+    </div>
   );
 }
 
