@@ -11,24 +11,23 @@ export const Skills = () => {
 
   useEffect(() => {
     getSkills();
-    console.log("Skills from store:", skills);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const SkillGrid = ({ skillsData }) => (
-    <section className="grid grid-cols-3 md:grid-cols-6 gap-5 place-items-center lg:w-[800px] mx-auto px-6">
+     <section className="grid grid-cols-3 md:grid-cols-4 gap-4 place-items-center lg:w-[640px] mx-auto px-6">
       {skillsData.map((sk) => (
         <div key={sk.id} className="relative group flex flex-col items-center">
           {/* Logo */}
           <motion.img
             src={sk.skills_img}
             alt={sk.skills_name}
-            className="w-[120px] h-[120px] object-contain transition-transform"
+            className="w-20 h-20 md:w-24 md:h-24 object-contain transition-transform"
             initial={{ scale: 0.9 }}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.08 }}
           />
           {/* Label on hover */}
-          <span className="absolute bottom-[-25px] text-sm font-medium text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <span className="absolute bottom-[-20px] text-xs md:text-sm font-medium text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             {sk.skills_name}
           </span>
         </div>
@@ -47,16 +46,11 @@ export const Skills = () => {
     ).isRequired,
   };
 
-  const SkeletonLoader = () => (
-    <section className="grid grid-cols-3 md:grid-cols-6 gap-5 place-items-center lg:w-[800px] mx-auto px-6">
-      {/* {Array(6)
-        .fill(null)
-        .map((_, i) => ( */}
+ const SkeletonLoader = () => (
+    <section className="grid grid-cols-3 md:grid-cols-4 gap-4 place-items-center lg:w-[640px] mx-auto px-6">
       <div className="flex flex-col items-center gap-2">
-        <Skeleton circle width={100} height={100} />
-        {/* <Skeleton width={80} height={16} /> */}
+        <Skeleton circle width={80} height={80} />
       </div>
-      {/* ))} */}
     </section>
   );
 

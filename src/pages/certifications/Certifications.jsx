@@ -48,7 +48,7 @@ const Certifications = () => {
   );
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto mt-10">
+    <div className="space-y-8 max-w-5xl mx-auto mt-10 px-4">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/5 pb-6">
         <div>
           <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">

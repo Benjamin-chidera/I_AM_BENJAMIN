@@ -40,6 +40,7 @@ export const Hero = () => {
   };
 
   const handleDownload = () => {
+    if (!url) return;
     const downloadLink = document.createElement("a");
     downloadLink.href = url;
     downloadLink.download = "resume.pdf";
@@ -49,7 +50,7 @@ export const Hero = () => {
   };
 
   const getIconForPlatform = (platformName) => {
-    const platform = platformName.toLowerCase().trim();
+    const platform = (platformName ?? "").toLowerCase().trim();
 
     switch (platform) {
       case "github":
@@ -202,7 +203,7 @@ export const Hero = () => {
 
         <div className="flex items-center gap-10 md:gap-14 mt-10">
           {socials?.map((soc) => {
-            const IconComponent = getIconForPlatform(soc.platform_name);
+            const IconComponent = getIconForPlatform(soc?.platform_name);
 
             if (!IconComponent) {
               return null; // Skip if no matching icon
@@ -210,8 +211,8 @@ export const Hero = () => {
 
             return (
               <motion.a
-                key={soc.id}
-                href={soc.url}
+                key={soc?.id}
+                href={soc?.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.5 }}

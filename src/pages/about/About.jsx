@@ -34,7 +34,7 @@ const About = () => {
 
         {/* About Content Skeleton */}
         <section className="lg:ml-10 flex-1">
-          <div className="p-8 space-y-4">
+          <div className=" space-y-4">
             <Skeleton width={200} height={32} />
             <Skeleton count={5} height={20} className="mb-3" />
             <Skeleton width={150} height={24} className="mt-6 mb-3" />
@@ -49,7 +49,7 @@ const About = () => {
   return (
     <main className="mx-6 lg:mx-12 pt-10 lg:flex justify-between">
       {/* Profile Image */}
-      <section className="relative lg:sticky lg:top-10 lg:h-[350px] lg:w-[300px] transition-all duration-500">
+     <section className="lg:sticky lg:top-16 lg:h-[300px] lg:w-[250px] self-start z-10 transition-all duration-500">
         <img
           className="hidden lg:block h-full w-full object-cover cursor-pointer rounded-tl-xl rounded-tr-xl"
           src={profile?.profile_image}
@@ -60,7 +60,7 @@ const About = () => {
       {/* About Content */}
       <section className="lg:ml-10 flex-1">
         <div
-          className="p-8 max-w-none space-y-5 leading-relaxed text-lg prose prose-invert prose-cyan"
+         className="max-w-none space-y-5 leading-relaxed prose-sm prose-invert prose-cyan"
           dangerouslySetInnerHTML={{ __html: about_me || "" }}
           style={{
             opacity: isUpdating ? 0.6 : 1,
