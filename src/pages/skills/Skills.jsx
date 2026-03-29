@@ -46,11 +46,15 @@ export const Skills = () => {
     ).isRequired,
   };
 
- const SkeletonLoader = () => (
+  const SkeletonLoader = ({ count }) => (
     <section className="grid grid-cols-3 md:grid-cols-4 gap-4 place-items-center lg:w-[640px] mx-auto px-6">
-      <div className="flex flex-col items-center gap-2">
-        <Skeleton circle width={80} height={80} />
-      </div>
+      {Array.from({ length: count > 0 ? count : 4 }).map((_, i) => (
+        <div key={i} className="relative group flex flex-col items-center">
+          <div className="w-20 h-20 md:w-24 md:h-24">
+            <Skeleton circle={true} height="100%" className="w-full h-full block" />
+          </div>
+        </div>
+      ))}
     </section>
   );
 
@@ -81,7 +85,7 @@ export const Skills = () => {
                 skillsData={skills.filter((sk) => sk.skills_type === type)}
               />
             ) : (
-              <SkeletonLoader />
+              <SkeletonLoader count={skills.filter((sk) => sk.skills_type === type).length} />
             )}
           </div>
         ))}

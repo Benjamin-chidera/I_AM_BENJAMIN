@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { Award, ExternalLink, Calendar, BadgeCheck } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -8,8 +8,15 @@ const Certifications = () => {
   const { certifications, getCertifications, isUpdating } =
     useCertificationsStore();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    getCertifications();
+    const fetchCerts = async () => {
+      setLoading(true);
+      await getCertifications();
+      setLoading(false);
+    };
+    fetchCerts();
   }, [getCertifications]);
 
   // Group certificates by year
@@ -24,24 +31,30 @@ const Certifications = () => {
     return Object.entries(groups).sort((a, b) => b[0].localeCompare(a[0]));
   }, [certifications]);
 
-  const SkeletonLoader = () => (
+  const SkeletonLoader = ({ count }) => (
     <div className="space-y-8">
       <div className="mb-12">
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-4 mb-6 sticky top-0 bg-[#0c0c1d]/95 backdrop-blur-sm z-10 py-2">
           <Skeleton width={80} height={32} borderRadius={20} />
           <Skeleton height={2} className="flex-1" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pl-2 md:pl-4 border-l-2 border-white/5 ml-4 md:ml-0">
-          <div className="bg-[#13132b] rounded-2xl p-5 space-y-4">
-            <div className="flex items-center gap-4">
-              <Skeleton circle width={40} height={40} />
-              <div className="flex-1 space-y-2">
-                <Skeleton width="80%" height={16} />
-                <Skeleton width="60%" height={12} />
+          {Array.from({ length: count > 0 ? count : 4 }).map((_, i) => (
+            <div key={i} className="bg-[#13132b] border border-white/5 rounded-2xl p-5 flex flex-col">
+              <div className="flex items-start justify-between mb-4">
+                <div className="flex items-center gap-4 w-full">
+                  <Skeleton width={40} height={40} borderRadius={12} />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton width="80%" height={18} />
+                    <Skeleton width="60%" height={14} />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between w-full">
+                <Skeleton width={120} height={16} />
               </div>
             </div>
-            <Skeleton width="100%" height={40} />
-          </div>
+          ))}
         </div>
       </div>
     </div>
@@ -61,8 +74,8 @@ const Certifications = () => {
       </div>
 
       <div className="relative">
-        {!isUpdating && certifications.length === 0 ? (
-          <SkeletonLoader />
+        {loading || isUpdating ? (
+          <SkeletonLoader count={certifications.length} />
         ) : groupedCerts.length === 0 ? (
           <div className="py-20 text-center border-2 border-dashed border-white/5 rounded-3xl bg-white/[0.02]">
             <BadgeCheck size={48} className="mx-auto text-gray-600 mb-4" />

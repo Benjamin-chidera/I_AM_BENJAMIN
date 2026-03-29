@@ -247,7 +247,7 @@ export const Navbar = () => {
                         whileTap={{ scale: 0.9 }}
                         variants={socialLinkVariant}
                       >
-                        <IconComponent size={20} />
+                        <IconComponent size={20} color="black"/>
                       </motion.a>
                     );
                   })}

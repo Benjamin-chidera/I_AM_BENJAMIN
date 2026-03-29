@@ -45,7 +45,7 @@ export const Projects = () => {
 
         <section className="flex flex-col gap-8 mt-8 mx-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: projects.length || 4 }).map((_, index) => (
+            {Array.from({ length: projects.length > 0 ? projects.length : 3 }).map((_, index) => (
               <div
                 key={index}
                 className="bg-[#13132b] rounded-2xl overflow-hidden border border-white/5"
@@ -80,7 +80,25 @@ export const Projects = () => {
 
       <section className="flex flex-col gap-12 mt-8 mx-5">
         {isUpdating ? (
-          <Skeleton count={projects.length || 6} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {Array.from({ length: projects.length > 0 ? projects.length : 3 }).map((_, index) => (
+              <div
+                key={index}
+                className="bg-[#13132b] rounded-2xl overflow-hidden border border-white/5"
+              >
+                <Skeleton height={200} />
+                <div className="p-4 space-y-3">
+                  <Skeleton width={160} height={18} />
+                  <Skeleton count={2} height={12} />
+                  <div className="flex gap-2 pt-2">
+                    <Skeleton width={64} height={18} />
+                    <Skeleton width={64} height={18} />
+                  </div>
+                  <Skeleton height={36} className="mt-3" />
+                </div>
+              </div>
+            ))}
+          </div>
         ) : projects.length === 0 ? (
           <div className="text-center py-20">
             <ImageIcon size={48} className="mx-auto text-gray-600 mb-4" />

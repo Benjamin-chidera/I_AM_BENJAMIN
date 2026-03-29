@@ -24,31 +24,33 @@ const Experience = () => {
       <main className="mx-4 lg:mx-8 pt-8">
         <Skeleton width={100} height={28} className="mb-8" />
 
-        <div className="relative space-y-6">
-          <div className="relative flex items-start">
-            <div className="absolute left-0 h-8 w-8 md:h-12 md:w-12 flex items-center justify-center rounded-full bg-[#0c0c1d] border-2 border-cyan-500/50 z-10">
-              <Skeleton circle={true} height={32} width={32} />
-            </div>
+        <div className="relative space-y-6 before:absolute before:inset-0 before:ml-4 before:h-full before:w-0.5 before:-translate-x-px before:bg-gradient-to-b before:from-cyan-500 before:via-purple-500 before:to-transparent md:before:ml-8">
+          {Array.from({ length: experiences.length > 0 ? experiences.length : 3 }).map((_, index) => (
+            <div key={index} className="relative flex items-start">
+              <div className="absolute left-0 h-8 w-8 md:h-12 md:w-12 flex items-center justify-center rounded-full bg-[#0c0c1d] border-2 border-cyan-500/50 z-10">
+                <Skeleton circle={true} height={32} width={32} />
+              </div>
 
-            <div className="ml-12 md:ml-20 w-full">
-              <Card className="p-4">
-                <div className="flex justify-between items-start mb-3">
-                  <div className="w-full">
-                    <Skeleton width={160} height={20} className="mb-1.5" />
-                    <Skeleton width={120} height={18} />
+              <div className="ml-12 md:ml-20 w-full">
+                <Card className="p-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="w-full">
+                      <Skeleton width={180} height={24} className="mb-1.5" />
+                      <Skeleton width={140} height={20} />
+                    </div>
+                    <Skeleton width={80} height={24} />
                   </div>
-                  <Skeleton width={80} height={20} />
-                </div>
 
-                <Skeleton count={2} height={14} className="mb-3" />
+                  <Skeleton count={3} height={20} className="mb-4" />
 
-                <div>
-                  <Skeleton width={80} height={12} className="mb-1.5" />
-                  <Skeleton count={1} height={14} />
-                </div>
-              </Card>
+                  <div>
+                    <Skeleton width={100} height={16} className="mb-2" />
+                    <Skeleton count={2} height={20} />
+                  </div>
+                </Card>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </main>
     );
@@ -58,7 +60,7 @@ const Experience = () => {
     <main className="mx-4 lg:mx-8 pt-8">
       <h2 className="my-4 font-bold text-xl text-white">Experience</h2>
 
-      <div className="relative space-y-6 before:absolute before:inset-0 before:ml-4 before:h-full before:w-0.5 before:-translate-x-px before:bg-gradient-to-b before:from-cyan-500 before:via-purple-500 before:to-transparent md:before:ml-8">
+      <div className="relative space-y-6 before:absolute before:inset-0 before:ml-4 before:h-full before:w-0.5 before:-translate-x-px before:bg-gradient-to-b before:from-cyan-500 before:via-purple-500 before:to-transparent md:before:ml-6">
         {experiences.length === 0 ? (
           <div className="text-center py-10 text-gray-500">
             <Briefcase size={40} className="mx-auto mb-2 opacity-50" />

@@ -1,4 +1,4 @@
-/* eslint-disable react/no-unescaped-entities */
+
 
 import { useEffect, useState } from "react";
 // import db from "../../assets/db.png";
@@ -24,22 +24,25 @@ const About = () => {
     return (
       <main className="mx-6 lg:mx-12 pt-10 lg:flex justify-between">
         {/* Profile Image Skeleton */}
-        <section className="relative lg:sticky lg:top-10 lg:h-[350px] lg:w-[300px] transition-all duration-500">
+        <section className="relative lg:sticky lg:top-16 lg:h-[300px] lg:w-[250px] self-start z-10 transition-all duration-500">
           <Skeleton
-            height={350}
-            width={300}
+            height={300}
+            width={250}
             className="hidden lg:block rounded-tl-xl rounded-tr-xl"
           />
         </section>
 
         {/* About Content Skeleton */}
         <section className="lg:ml-10 flex-1">
-          <div className=" space-y-4">
-            <Skeleton width={200} height={32} />
-            <Skeleton count={5} height={20} className="mb-3" />
-            <Skeleton width={150} height={24} className="mt-6 mb-3" />
-            <Skeleton count={4} height={20} className="mb-2" />
-            <Skeleton count={3} height={20} className="mt-6" />
+          <div className="space-y-4">
+            <Skeleton width={300} height={40} />
+            <Skeleton count={6} height={28} className="mb-4" />
+            
+            <Skeleton width={200} height={32} className="mt-8 mb-4" />
+            <Skeleton count={5} height={28} className="mb-4" />
+            
+            <Skeleton width={250} height={32} className="mt-8 mb-4" />
+            <Skeleton count={7} height={28} className="mb-4" />
           </div>
         </section>
       </main>
