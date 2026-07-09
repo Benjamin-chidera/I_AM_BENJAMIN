@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import PropTypes from "prop-types";
 
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -35,16 +34,7 @@ export const Skills = () => {
     </section>
   );
 
-  SkillGrid.propTypes = {
-    skillsData: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        skills_img: PropTypes.string.isRequired,
-        skills_name: PropTypes.string.isRequired,
-        skills_type: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-  };
+
 
   const SkeletonLoader = ({ count }) => (
     <section className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-6 md:gap-8 place-items-center w-full max-w-6xl mx-auto">
