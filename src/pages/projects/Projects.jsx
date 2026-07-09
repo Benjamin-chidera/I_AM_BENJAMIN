@@ -12,6 +12,9 @@ export const Projects = () => {
   const { projects, getProjects, isUpdating } = useProjectsStore();
   const [loading, setLoading] = useState(true);
 
+  // Tracks which project descriptions are expanded (by project id)
+  const [expandedDescriptions, setExpandedDescriptions] = useState(new Set());
+
   useEffect(() => {
     const fetchProjects = async () => {
       setLoading(true);
@@ -20,6 +23,18 @@ export const Projects = () => {
     };
     fetchProjects();
   }, [getProjects]);
+
+  const toggleDescription = (projectId) => {
+    setExpandedDescriptions((previous) => {
+      const next = new Set(previous);
+      if (next.has(projectId)) {
+        next.delete(projectId);
+      } else {
+        next.add(projectId);
+      }
+      return next;
+    });
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -36,7 +51,7 @@ export const Projects = () => {
     return (
       <main className="lg:px-5" id="portfolio">
         <motion.section
-          className="gap-2 px-6 pt-10"
+          className="gap-2  pt-10"
           initial={{ x: -200, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
         >
@@ -45,20 +60,36 @@ export const Projects = () => {
 
         <section className="flex flex-col gap-8 mt-8 mx-5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: projects.length > 0 ? projects.length : 3 }).map((_, index) => (
+            {Array.from({
+              length: projects.length > 0 ? projects.length : 3,
+            }).map((_, index) => (
               <div
                 key={index}
-                className="bg-[#13132b] rounded-2xl overflow-hidden border border-white/5"
+                className="bg-[#13132b] rounded-2xl overflow-hidden border border-white/5 flex flex-col"
               >
-                <Skeleton height={200} />
-                <div className="p-4 space-y-3">
-                  <Skeleton width={160} height={18} />
-                  <Skeleton count={2} height={12} />
-                  <div className="flex gap-2 pt-2">
-                    <Skeleton width={64} height={18} />
-                    <Skeleton width={64} height={18} />
+                <div className="h-44 md:h-64 w-full">
+                  <Skeleton height="100%" style={{ display: "block", height: "100%" }} baseColor="#1a1a3a" highlightColor="#2a2a5a" />
+                </div>
+                <div className="p-4 flex-1 flex flex-col relative z-10">
+                  <div className="mb-3">
+                    <Skeleton width="60%" height={20} baseColor="#1a1a3a" highlightColor="#2a2a5a" className="mb-2" />
+                    <Skeleton count={3} height={14} baseColor="#1a1a3a" highlightColor="#2a2a5a" className="mb-1" />
+                    
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      <Skeleton width={70} height={24} borderRadius={8} baseColor="#1a1a3a" highlightColor="#2a2a5a" />
+                      <Skeleton width={90} height={24} borderRadius={8} baseColor="#1a1a3a" highlightColor="#2a2a5a" />
+                      <Skeleton width={60} height={24} borderRadius={8} baseColor="#1a1a3a" highlightColor="#2a2a5a" />
+                    </div>
                   </div>
-                  <Skeleton height={36} className="mt-3" />
+                  
+                  <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+                    <div className="flex-1">
+                      <Skeleton height={36} borderRadius={8} baseColor="#1a1a3a" highlightColor="#2a2a5a" />
+                    </div>
+                    <div className="flex-1">
+                      <Skeleton height={36} borderRadius={8} baseColor="#1a1a3a" highlightColor="#2a2a5a" />
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -69,19 +100,21 @@ export const Projects = () => {
   }
 
   return (
-    <main className="lg:px-5" id="portfolio">
+    <main className="" id="portfolio">
       <motion.section
-        className="gap-2 px-6 pt-10"
+        className="gap-2 pt-5 md:pt-10"
         initial={{ x: -200, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
       >
         <h1 className="text-2xl font-semibold">PROJECTS</h1>
       </motion.section>
 
-      <section className="flex flex-col gap-12 mt-8 mx-5">
+      <section className="flex flex-col gap-12 mt-4 md:mt-8">
         {isUpdating ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: projects.length > 0 ? projects.length : 3 }).map((_, index) => (
+            {Array.from({
+              length: projects.length > 0 ? projects.length : 3,
+            }).map((_, index) => (
               <div
                 key={index}
                 className="bg-[#13132b] rounded-2xl overflow-hidden border border-white/5"
@@ -111,96 +144,128 @@ export const Projects = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project) => (
-              <motion.div
-                key={project.id}
-                className="group relative bg-[#13132b] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(6,182,212,0.12)] flex flex-col"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.6 }}
-              >
-                {/* Image Section */}
-                <div className="relative h-36 w-full overflow-hidden bg-black/40">
-                  {project.project_image ? (
-                    <img
-                      src={project.project_image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 bg-gradient-to-br from-white/5 to-transparent">
-                      <ImageIcon size={32} className="mb-2 opacity-50" />
-                      <span className="text-[10px] uppercase tracking-widest font-medium">
-                        No Preview
-                      </span>
-                    </div>
-                  )}
+            {projects.map((project) => {
+              const isExpanded = expandedDescriptions.has(project.id);
+              // Only show the toggle if the description is long enough to be clamped
+              const DESCRIPTION_THRESHOLD = 120;
+              const showToggle =
+                project.description &&
+                project.description.length > DESCRIPTION_THRESHOLD;
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#13132b] via-[#13132b]/20 to-transparent opacity-80" />
+              return (
+                <motion.div
+                  key={project.id}
+                  className="group relative  bg-[#13132b]  rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(6,182,212,0.12)] flex flex-col"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  {/* Image Section */}
+                  <div className="relative h-44 md:h-64 w-full overflow-hidden bg-black/40 ">
+                    {project.project_image ? (
+                      <img
+                        src={project.project_image}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center text-gray-600 bg-gradient-to-br from-white/5 to-transparent">
+                        <ImageIcon size={32} className="mb-2 opacity-50" />
+                        <span className="text-[10px] uppercase tracking-widest font-medium">
+                          No Preview
+                        </span>
+                      </div>
+                    )}
 
-                  <div
-                    className={`absolute top-3 right-3 px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider border backdrop-blur-md shadow-lg ${getStatusColor(
-                      project.project_status
-                    )}`}
-                  >
-                    {project.project_status}
-                  </div>
-                </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#13132b] via-[#13132b]/20 to-transparent opacity-80" />
 
-                {/* Content Section */}
-                <div className="p-4 flex-1 flex flex-col relative z-10">
-                  <div className="mb-3">
-                    <h3 className="text-base font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors truncate">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed line-clamp-3">
-                      {project.description}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {project.tools_used &&
-                        project.tools_used.split(",").map((tool, i) => (
-                          <span
-                            key={i}
-                            className="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-cyan-200 bg-cyan-900/20 border border-cyan-500/10 rounded-lg"
-                          >
-                            {tool.trim()}
-                          </span>
-                        ))}
+                    <div
+                      className={`absolute top-3 right-3 px-2 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider border backdrop-blur-md shadow-lg ${getStatusColor(
+                        project.project_status,
+                      )}`}
+                    >
+                      {project.project_status}
                     </div>
                   </div>
 
-                  <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between gap-3">
-                    <a
-                      href={project.github_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-white/5 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-all group/btn disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={isUpdating}
-                    >
-                      <FaGithub
-                        size={14}
-                        className="text-gray-400 group-hover/btn:text-white transition-colors"
-                      />
-                      <span>Code</span>
-                    </a>
-                    <a
-                      href={project.live_url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-cyan-500/10 text-sm font-medium text-cyan-400 hover:bg-cyan-500/20 hover:text-cyan-300 transition-all border border-cyan-500/20 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
-                      disabled={isUpdating}
-                    >
-                      <ExternalLink
-                        size={14}
-                        className="group-hover/btn:scale-110 transition-transform"
-                      />
-                      <span>Live Demo</span>
-                    </a>
+                  {/* Content Section */}
+                  <div className="p-4 flex-1 flex flex-col relative z-10">
+                    <div className="mb-3">
+                      <h3 className="text-base font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors truncate">
+                        {project.title}
+                      </h3>
+                      <p
+                        className={`text-gray-400 text-sm leading-relaxed ${
+                          isExpanded ? "" : "line-clamp-3"
+                        }`}
+                        style={
+                          !isExpanded
+                            ? {
+                                display: "-webkit-box",
+                                WebkitLineClamp: 3,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                              }
+                            : {}
+                        }
+                      >
+                        {project.description}
+                      </p>
+
+                      {showToggle && (
+                        <button
+                          onClick={() => toggleDescription(project.id)}
+                          className="text-cyan-400 hover:text-cyan-300 text-xs font-medium mt-1 transition-colors"
+                        >
+                          {isExpanded ? "View Less" : "View More"}
+                        </button>
+                      )}
+
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {project.tools_used &&
+                          project.tools_used.split(",").map((tool, i) => (
+                            <span
+                              key={i}
+                              className="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-cyan-200 bg-cyan-900/20 border border-cyan-500/10 rounded-lg"
+                            >
+                              {tool.trim()}
+                            </span>
+                          ))}
+                      </div>
+                    </div>
+
+                    <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between gap-3">
+                      <a
+                        href={project.github_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-white/5 text-sm font-medium text-gray-300 hover:bg-white/10 hover:text-white transition-all group/btn disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={isUpdating}
+                      >
+                        <FaGithub
+                          size={14}
+                          className="text-gray-400 group-hover/btn:text-white transition-colors"
+                        />
+                        <span>Code</span>
+                      </a>
+                      <a
+                        href={project.live_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-cyan-500/10 text-sm font-medium text-cyan-400 hover:bg-cyan-500/20 hover:text-cyan-300 transition-all border border-cyan-500/20 group/btn disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={isUpdating}
+                      >
+                        <ExternalLink
+                          size={14}
+                          className="group-hover/btn:scale-110 transition-transform"
+                        />
+                        <span>Live Demo</span>
+                      </a>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         )}
       </section>

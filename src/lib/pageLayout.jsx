@@ -4,10 +4,8 @@ import { Outlet } from "react-router-dom";
 export const PageLayout = () => {
   return (
     <>
-      <section className="main-section" id="home">
-        <Navbar />
-      </section>
-      <div>
+      <Navbar />
+      <div className="pt-20" id="home">
         <Outlet />
       </div>
     </>

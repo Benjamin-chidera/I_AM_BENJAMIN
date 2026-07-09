@@ -40,7 +40,7 @@ export const Contact = () => {
   };
 
   return (
-    <main id="contact" className="pt-10 lg:mx-6">
+    <main id="contact" className="pt-10">
       <motion.section
         className="flex justify-center items-center gap-2"
         initial={{
@@ -56,7 +56,7 @@ export const Contact = () => {
         <h1 className="text-2xl md:text-4xl font-semibold">CONTACT</h1>
         <div className="h-1 w-10 md:w-20 bg-slate-300"></div>
       </motion.section>
-      <section className="md:flex justify-between mt-10 px-7 w-full">
+      <section className="md:flex justify-between mt-10 w-full">
         <section className="mb-5 W-[30%]">
           <h1 className="text-3xl md:text-7xl md:max-w-md font-semibold">
             Let’s work together

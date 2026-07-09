@@ -31,7 +31,7 @@ function AppContent() {
     <div className="flex flex-col min-h-screen overflow-x-hidden">
       <main
         className={`${
-          path.includes("admin") ? "" : "container mx-auto"
+          path.includes("admin") ? "" : "w-11/12 md:w-10/12 mx-auto"
         } pt-3 flex-1`}
       >
         <Cursor />

@@ -35,23 +35,23 @@ const Certifications = () => {
     <div className="space-y-8">
       <div className="mb-12">
         <div className="flex items-center gap-4 mb-6 sticky top-0 bg-[#0c0c1d]/95 backdrop-blur-sm z-10 py-2">
-          <Skeleton width={80} height={32} borderRadius={20} />
-          <Skeleton height={2} className="flex-1" />
+          <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={80} height={32} borderRadius={20} />
+          <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" height={2} className="flex-1" />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pl-2 md:pl-4 border-l-2 border-white/5 ml-4 md:ml-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 pl-2 md:pl-4 border-l-2 border-white/5 ml-4 md:ml-0">
           {Array.from({ length: count > 0 ? count : 4 }).map((_, i) => (
             <div key={i} className="bg-[#13132b] border border-white/5 rounded-2xl p-5 flex flex-col">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-4 w-full">
-                  <Skeleton width={40} height={40} borderRadius={12} />
+                  <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={40} height={40} borderRadius={12} />
                   <div className="flex-1 space-y-2">
-                    <Skeleton width="80%" height={18} />
-                    <Skeleton width="60%" height={14} />
+                    <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width="80%" height={18} />
+                    <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width="60%" height={14} />
                   </div>
                 </div>
               </div>
               <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between w-full">
-                <Skeleton width={120} height={16} />
+                <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={120} height={16} />
               </div>
             </div>
           ))}
@@ -61,7 +61,7 @@ const Certifications = () => {
   );
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto mt-10 px-4">
+    <div className="space-y-8 w-full mt-10 px-2">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/5 pb-6">
         <div>
           <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
@@ -96,7 +96,7 @@ const Certifications = () => {
               </div>
 
               {/* Cards Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pl-2 md:pl-4 border-l-2 border-white/5 ml-4 md:ml-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 pl-2 md:pl-4 border-l-2 border-white/5 ml-4 md:ml-0">
                 {yearCerts.map((cert) => (
                   <div
                     key={cert.id}

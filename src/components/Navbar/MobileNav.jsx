@@ -21,7 +21,7 @@ export const MobileNav = ({ handleClose }) => {
 
   return (
     <motion.main
-      className="z-40 bg-white w-[200px] max-w-full fixed top-0 bottom-0 right-0 flex justify-center h-screen "
+      className="z-40 bg-white max-w-full fixed top-0 bottom-0 right-0 flex justify-center h-screen w-11/12 "
       initial={{
         opacity: 0,
         x: 200,

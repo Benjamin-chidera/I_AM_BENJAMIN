@@ -82,9 +82,9 @@ export const Hero = () => {
             <div className="bg-white w-14 h-14 rounded-full absolute -top-4 -left-2 -z-30"></div>
           </div>
 
-          <Skeleton width={200} height={40} className="mb-4" />
-          <Skeleton width={250} height={30} count={2} className="mb-3" />
-          <Skeleton width={200} height={45} className="mt-7" />
+          <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={200} height={40} className="mb-4" />
+          <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={250} height={30} count={2} className="mb-3" />
+          <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={200} height={45} className="mt-7" />
 
           <motion.div
             className="hidden lg:block absolute text-[200px] bottom-0 whitespace-nowrap w-[50%] h-fit font-bold -z-30 text-[#ffffff09]"
@@ -96,18 +96,18 @@ export const Hero = () => {
           </motion.div>
         </section>
 
-        <section className="w-[50%]">
-          <div className="relative" style={{ height: 400, width: 350 }}>
-            <Skeleton
+        <section className="w-full lg:w-[50%]">
+          <div className="relative hidden lg:block" style={{ height: 400, width: 350 }}>
+            <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a"
               height={350}
               width={300}
-              className="hidden lg:block rounded-tl-xl rounded-tr-xl"
+              className="rounded-tl-xl rounded-tr-xl"
             />
           </div>
 
           <div className="flex items-center gap-10 md:gap-14 mt-10">
             {Array.from({ length: 5 }).map((_, index) => (
-              <Skeleton key={index} circle={true} height={24} width={24} />
+              <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" key={index} circle={true} height={24} width={24} />
             ))}
           </div>
         </section>
@@ -117,7 +117,7 @@ export const Hero = () => {
 
   return (
     <main
-      className="hero lg:flex justify-between py-14 lg:py-20 w-full relative z-10 px-7 md:px-14"
+      className="hero lg:flex justify-between py-14 lg:py-20 w-full relative z-10 px-2"
       id="home"
     >
       <section className="w-[80%] relative">
@@ -167,7 +167,7 @@ export const Hero = () => {
       </section>
 
       <motion.section
-        className="w-[50%]"
+        className="w-full lg:w-[50%]"
         initial={{
           opacity: 0,
           x: 200,
@@ -180,7 +180,7 @@ export const Hero = () => {
           },
         }}
       >
-        <motion.div className="relative" style={{ height: 400, width: 350 }}>
+        <motion.div className="relative hidden lg:block" style={{ height: 400, width: 350 }}>
           <motion.img
             className="hidden lg:block h-[350px] w-[300px] object-cover cursor-pointer rounded-tl-xl rounded-tr-xl"
             src={profile?.profile_image}

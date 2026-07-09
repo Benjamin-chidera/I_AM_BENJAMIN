@@ -15,14 +15,14 @@ export const Skills = () => {
   }, []);
 
   const SkillGrid = ({ skillsData }) => (
-     <section className="grid grid-cols-3 md:grid-cols-4 gap-4 place-items-center lg:w-[640px] mx-auto px-6">
+     <section className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-6 md:gap-8 place-items-center ">
       {skillsData.map((sk) => (
         <div key={sk.id} className="relative group flex flex-col items-center">
           {/* Logo */}
           <motion.img
             src={sk.skills_img}
             alt={sk.skills_name}
-            className="w-20 h-20 md:w-24 md:h-24 object-contain transition-transform"
+            className="w-30 h-30 md:w-40 md:h-40 object-contain transition-transform"
             initial={{ scale: 0.9 }}
             whileHover={{ scale: 1.08 }}
           />
@@ -47,11 +47,11 @@ export const Skills = () => {
   };
 
   const SkeletonLoader = ({ count }) => (
-    <section className="grid grid-cols-3 md:grid-cols-4 gap-4 place-items-center lg:w-[640px] mx-auto px-6">
+    <section className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-6 md:gap-8 place-items-center w-full max-w-6xl mx-auto">
       {Array.from({ length: count > 0 ? count : 4 }).map((_, i) => (
         <div key={i} className="relative group flex flex-col items-center">
           <div className="w-20 h-20 md:w-24 md:h-24">
-            <Skeleton circle={true} height="100%" className="w-full h-full block" />
+            <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" circle={true} height="100%" className="w-full h-full block" />
           </div>
         </div>
       ))}
@@ -61,7 +61,7 @@ export const Skills = () => {
   const skillTypes = ["frontend", "backend", "ai/ml", "tools"];
 
   return (
-    <main id="skills" className="my-12">
+    <main id="skills" className="my-10">
       {/* Section Header */}
       <motion.section
         className="flex justify-center items-center gap-2 mb-10"

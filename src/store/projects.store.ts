@@ -12,6 +12,7 @@ interface Project {
   project_status: string;
   tools_used: string;
   project_image: string;
+  project_video: string | null;
 }
 
 interface ProjectsState {
@@ -33,6 +34,10 @@ interface ProjectsState {
   setProjectImage: (project_image: string | File) => void;
   preview: string | null;
   setPreview: (preview: string) => void;
+  project_video: string | File | null;
+  setProjectVideo: (project_video: string | File | null) => void;
+  videoPreview: string | null;
+  setVideoPreview: (videoPreview: string | null) => void;
   currentProjectId: string | null;
   setCurrentProjectId: (id: string | null) => void;
   getProjects: () => void;
@@ -63,6 +68,10 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
   setProjectImage: (project_image: string | File) => set({ project_image }),
   preview: null,
   setPreview: (preview: string) => set({ preview }),
+  project_video: null,
+  setProjectVideo: (project_video: string | File | null) => set({ project_video }),
+  videoPreview: null,
+  setVideoPreview: (videoPreview: string | null) => set({ videoPreview }),
   currentProjectId: null,
   setCurrentProjectId: (id: string | null) => set({ currentProjectId: id }),
 
@@ -76,6 +85,8 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
       tools_used: "",
       project_image: null,
       preview: null,
+      project_video: null,
+      videoPreview: null,
       currentProjectId: null,
     }),
 
@@ -90,6 +101,7 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
       project_status,
       tools_used,
       project_image,
+      project_video,
     } = useProjectsStore.getState();
 
     const formData = new FormData();
@@ -104,6 +116,11 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
       formData.append("image", project_image);
     } else if (project_image) {
       formData.append("image", project_image as string);
+    }
+
+    // Append video file if a new one was selected
+    if (project_video instanceof File) {
+      formData.append("video", project_video);
     }
 
     try {
@@ -139,6 +156,7 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
       project_status,
       tools_used,
       project_image,
+      project_video,
     } = useProjectsStore.getState();
 
     if (!currentProjectId) {
@@ -159,6 +177,11 @@ export const useProjectsStore = create<ProjectsState>((set) => ({
       formData.append("image", project_image);
     } else if (project_image) {
       formData.append("image", project_image as string);
+    }
+
+    // Append video file if a new one was selected
+    if (project_video instanceof File) {
+      formData.append("video", project_video);
     }
 
     try {

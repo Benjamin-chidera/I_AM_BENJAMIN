@@ -167,9 +167,9 @@ export const Navbar = () => {
   };
 
   return (
-    <main className="bg-[#0c0c1d] shadow-2xl p-5 z-20 overyh">
+    <main className="bg-[#0c0c1d]/95 backdrop-blur-md shadow-2xl py-5 fixed top-0 inset-x-0 w-full z-40 rounded-b-2xl">
       <motion.main
-        className="flex justify-between items-center lg:px-7 w-full"
+        className="flex justify-between items-center w-11/12 md:w-10/12 mx-auto"
         variants={navVariants}
         initial="hidden"
         animate="visible"

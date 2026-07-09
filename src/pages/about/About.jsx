@@ -25,24 +25,24 @@ const About = () => {
       <main className="mx-6 lg:mx-12 pt-10 lg:flex justify-between">
         {/* Profile Image Skeleton */}
         <section className="relative lg:sticky lg:top-16 lg:h-[300px] lg:w-[250px] self-start z-10 transition-all duration-500">
-          <Skeleton
+          <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a"
             height={300}
             width={250}
             className="hidden lg:block rounded-tl-xl rounded-tr-xl"
           />
         </section>
 
-        {/* About Content Skeleton */}
+        {/* About Content Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" */}
         <section className="lg:ml-10 flex-1">
           <div className="space-y-4">
-            <Skeleton width={300} height={40} />
-            <Skeleton count={6} height={28} className="mb-4" />
+            <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={300} height={40} />
+            <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" count={6} height={28} className="mb-4" />
             
-            <Skeleton width={200} height={32} className="mt-8 mb-4" />
-            <Skeleton count={5} height={28} className="mb-4" />
+            <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={200} height={32} className="mt-8 mb-4" />
+            <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" count={5} height={28} className="mb-4" />
             
-            <Skeleton width={250} height={32} className="mt-8 mb-4" />
-            <Skeleton count={7} height={28} className="mb-4" />
+            <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={250} height={32} className="mt-8 mb-4" />
+            <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" count={7} height={28} className="mb-4" />
           </div>
         </section>
       </main>
@@ -50,7 +50,7 @@ const About = () => {
   }
 
   return (
-    <main className="mx-6 lg:mx-12 pt-10 lg:flex justify-between">
+    <main className="px-2 pt-10 lg:flex justify-between">
       {/* Profile Image */}
      <section className="lg:sticky lg:top-16 lg:h-[300px] lg:w-[250px] self-start z-10 transition-all duration-500">
         <img

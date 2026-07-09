@@ -8,7 +8,7 @@ import {
   Textarea,
 } from "../../components/UI";
 import { useProjectsStore } from "../../store/projects.store";
-import { Plus, Github, Globe, Edit, Trash, Folder, Upload } from "lucide-react";
+import { Plus, Github, Globe, Edit, Trash, Folder, Upload, Video } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -37,6 +37,10 @@ export const AdminProjects: React.FC = () => {
     setProjectImage,
     preview,
     setPreview,
+    project_video,
+    setProjectVideo,
+    videoPreview,
+    setVideoPreview,
     currentProjectId,
     setCurrentProjectId,
     clearForm,
@@ -51,6 +55,15 @@ export const AdminProjects: React.FC = () => {
       const url = URL.createObjectURL(file);
       setPreview(url);
       setProjectImage(file);
+    }
+  };
+
+  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
+      setVideoPreview(url);
+      setProjectVideo(file);
     }
   };
 
@@ -81,6 +94,8 @@ export const AdminProjects: React.FC = () => {
     setToolsUsed(project.tools_used || "");
     setPreview(project.project_image);
     setProjectImage(project.project_image);
+    setVideoPreview(project.project_video || null);
+    setProjectVideo(project.project_video || null);
     setIsModalOpen(true);
   };
 
@@ -297,6 +312,46 @@ export const AdminProjects: React.FC = () => {
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
+                className="absolute inset-0 opacity-0 cursor-pointer"
+              />
+            </div>
+          </div>
+
+          {/* Video Upload */}
+          <div>
+            <label className="block text-xs font-medium text-gray-400 uppercase tracking-wider mb-2">
+              Project Video (optional)
+            </label>
+            <div className="relative border-2 border-dashed border-white/10 rounded-lg p-6 text-center hover:border-cyan-500/50 transition-colors">
+              {videoPreview ? (
+                <div className="relative">
+                  <video
+                    src={videoPreview}
+                    className="w-full h-40 object-cover rounded-lg"
+                    controls
+                  />
+                  <button
+                    onClick={() => {
+                      setVideoPreview(null);
+                      setProjectVideo(null);
+                    }}
+                    className="absolute top-2 right-2 bg-red-500/80 text-white px-2 py-1 rounded text-xs"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <Video size={32} className="text-gray-500 mb-2" />
+                  <p className="text-sm text-gray-400">
+                    Click to upload project video
+                  </p>
+                </div>
+              )}
+              <input
+                type="file"
+                accept="video/*"
+                onChange={handleVideoChange}
                 className="absolute inset-0 opacity-0 cursor-pointer"
               />
             </div>

@@ -21,31 +21,31 @@ const Experience = () => {
 
   if (loading) {
     return (
-      <main className="mx-4 lg:mx-8 pt-8">
-        <Skeleton width={100} height={28} className="mb-8" />
+      <main className="pt-8">
+        <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={100} height={28} className="mb-8" />
 
         <div className="relative space-y-6 before:absolute before:inset-0 before:ml-4 before:h-full before:w-0.5 before:-translate-x-px before:bg-gradient-to-b before:from-cyan-500 before:via-purple-500 before:to-transparent md:before:ml-8">
           {Array.from({ length: experiences.length > 0 ? experiences.length : 3 }).map((_, index) => (
             <div key={index} className="relative flex items-start">
               <div className="absolute left-0 h-8 w-8 md:h-12 md:w-12 flex items-center justify-center rounded-full bg-[#0c0c1d] border-2 border-cyan-500/50 z-10">
-                <Skeleton circle={true} height={32} width={32} />
+                <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" circle={true} height={32} width={32} />
               </div>
 
               <div className="ml-12 md:ml-20 w-full">
                 <Card className="p-4">
                   <div className="flex justify-between items-start mb-3">
                     <div className="w-full">
-                      <Skeleton width={180} height={24} className="mb-1.5" />
-                      <Skeleton width={140} height={20} />
+                      <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={180} height={24} className="mb-1.5" />
+                      <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={140} height={20} />
                     </div>
-                    <Skeleton width={80} height={24} />
+                    <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={80} height={24} />
                   </div>
 
-                  <Skeleton count={3} height={20} className="mb-4" />
+                  <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" count={3} height={20} className="mb-4" />
 
                   <div>
-                    <Skeleton width={100} height={16} className="mb-2" />
-                    <Skeleton count={2} height={20} />
+                    <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" width={100} height={16} className="mb-2" />
+                    <Skeleton  baseColor="#1a1a3a" highlightColor="#2a2a5a" count={2} height={20} />
                   </div>
                 </Card>
               </div>
@@ -57,7 +57,7 @@ const Experience = () => {
   }
 
   return (
-    <main className="mx-4 lg:mx-8 pt-8">
+    <main className="px-2 pt-8">
       <h2 className="my-4 font-bold text-xl text-white">Experience</h2>
 
       <div className="relative space-y-6 before:absolute before:inset-0 before:ml-4 before:h-full before:w-0.5 before:-translate-x-px before:bg-gradient-to-b before:from-cyan-500 before:via-purple-500 before:to-transparent md:before:ml-6">
@@ -82,18 +82,18 @@ const Experience = () => {
 
               <div className="ml-12 md:ml-20 w-full">
                 <Card className="p-4 hover:border-cyan-500/30 transition-all">
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex flex-col md:flex-row justify-between md:items-start mb-3 gap-2 md:gap-4">
                     <div>
-                      <h3 className="text-lg font-bold text-white">
+                      <h3 className=" mb-1 md:text-lg font-bold text-white">
                         {exp.role}
                       </h3>
                       <h4 className="text-sm text-cyan-400 font-medium">
                         {exp.company_name}
                       </h4>
                     </div>
-                    <div className="flex flex-col items-end gap-1">
-                      <span className="flex items-center text-[11px] font-mono text-gray-400 bg-white/5 px-2 py-0.5 rounded">
-                        <Calendar size={12} className="mr-2" /> {exp.years}
+                    <div className="flex flex-col items-start md:items-end gap-1 shrink-0">
+                      <span className="flex items-center text-[11px] md:text-xs font-mono text-gray-400 bg-white/5 px-2 py-1 rounded whitespace-nowrap shrink-0">
+                        <Calendar size={12} className="mr-2 shrink-0" /> {exp.years}
                       </span>
                     </div>
                   </div>
